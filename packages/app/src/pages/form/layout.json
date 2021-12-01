@@ -1,0 +1,74 @@
+{
+    "layouts": {
+        "lg": [
+            {
+                "w": 4,
+                "h": 2,
+                "x": 3,
+                "y": 0,
+                "i": 1,
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 3,
+                "y": 9,
+                "i": 2,
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 3,
+                "y": 7,
+                "i": "goodway",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 5,
+                "x": 3,
+                "y": 2,
+                "i": "4",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 3,
+                "y": 8,
+                "i": "5",
+                "moved": false,
+                "static": false
+            }
+        ]
+    },
+    "widgets": [
+        {
+            "i": "1",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "2",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "goodway",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "4",
+            "type": "VideoWidget"
+        },
+        {
+            "i": "5",
+            "type": "BtnWidget"
+        }
+    ],
+    "maxId": 6
+}

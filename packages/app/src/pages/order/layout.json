@@ -1,0 +1,185 @@
+{
+    "layouts": {
+        "lg": [],
+        "xs": [],
+        "md": [
+            {
+                "w": 4,
+                "h": 1,
+                "x": 6,
+                "y": 0,
+                "i": "bbbb",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 6,
+                "y": 3,
+                "i": "12",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 6,
+                "y": 5,
+                "i": "btn1",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 10,
+                "h": 5,
+                "x": 0,
+                "y": 6,
+                "i": "14",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 4,
+                "y": 4,
+                "i": "19",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 0,
+                "i": "20",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 2,
+                "i": "21",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 1,
+                "h": 1,
+                "x": 4,
+                "y": 0,
+                "i": "22",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 1,
+                "h": 1,
+                "x": 5,
+                "y": 0,
+                "i": "23",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 2,
+                "h": 1,
+                "x": 6,
+                "y": 1,
+                "i": "24",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 3,
+                "h": 1,
+                "x": 1,
+                "y": 1,
+                "i": "form_btn",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 4,
+                "y": 2,
+                "i": "26",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 3,
+                "i": "27",
+                "moved": false,
+                "static": false
+            }
+        ],
+        "sm": []
+    },
+    "widgets": [
+        {
+            "i": "bbbb",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "12",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "btn1",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "14",
+            "type": "TableWidget"
+        },
+        {
+            "i": "19",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "20",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "21",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "22",
+            "type": "DropDownWidget"
+        },
+        {
+            "i": "23",
+            "type": "DropDownWidget"
+        },
+        {
+            "i": "24",
+            "type": "DropDownWidget"
+        },
+        {
+            "i": "form_btn",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "26",
+            "type": "InputWidget"
+        },
+        {
+            "i": "27",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "_2",
+            "type": "InputWidget"
+        }
+    ],
+    "maxId": 29
+}
