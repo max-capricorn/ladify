@@ -1,0 +1,15 @@
+{
+  "name": "@ladify/web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.tsx",
+  "dependencies": {
+    "@ladify/ui": "workspace:*",
+    "@ladify/utils": "workspace:^1.0.0"
+  },
+  "scripts": {
+    "dev": "vite"
+  },
+  "author": "Zk",
+  "license": "MIT"
+}

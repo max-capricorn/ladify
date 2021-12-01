@@ -1,0 +1,9 @@
+{
+  "name": "@ladify/utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "author": "Zk",
+  "license": "MIT",
+  "dependencies": {}
+}
