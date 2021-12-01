@@ -1,7 +1,7 @@
 
 // this file should contains all the business logic 
 import {columns, data} from '../../mock/tableData'
-import LadifyPageContext from '../../ladify/LadifyPageContext'
+import {LadifyPageContext} from '@ladify/core'
 let timer = null;
 export default class HomeLogic extends LadifyPageContext {
   handleEvent(id, type, payload) {

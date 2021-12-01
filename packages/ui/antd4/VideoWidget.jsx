@@ -1,6 +1,6 @@
 
 import React from 'react';
-import LadifyWidget from '../ladify/LadifyWidget'
+import {LadifyWidget} from '@ladify/core'
 
 export default class Videodget extends LadifyWidget {
   static getCellW() {

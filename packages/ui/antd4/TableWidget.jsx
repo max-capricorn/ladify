@@ -1,6 +1,6 @@
 import {Table} from 'antd';
 import React from 'react';
-import LadifyWidget from '../ladify/LadifyWidget'
+import {LadifyWidget} from '@ladify/core'
 
 
 

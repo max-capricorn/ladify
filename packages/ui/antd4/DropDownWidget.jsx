@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, Dropdown, Button } from 'antd';
 import {HomeOutlined} from '@ant-design/icons'
-import LadifyWidget from '../ladify/LadifyWidget'
+import {LadifyWidget} from '@ladify/core'
 
 export default class DropDownWidget extends LadifyWidget {
   static getType() {

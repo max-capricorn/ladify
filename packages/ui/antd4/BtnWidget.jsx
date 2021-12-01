@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button} from 'antd';
-import LadifyWidget from '../ladify/LadifyWidget'
+import {LadifyWidget} from '@ladify/core'
 
 
 export default class BtnWidget extends LadifyWidget {

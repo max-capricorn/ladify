@@ -1,6 +1,6 @@
 import React from 'react';
 import {Input} from 'antd';
-import LadifyWidget from '../ladify/LadifyWidget'
+import {LadifyWidget} from '@ladify/core'
 
 export default class InputWidget extends LadifyWidget {
   static getCellW() {

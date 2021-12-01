@@ -1,5 +1,4 @@
-import LadifyWidget from '../ladify/LadifyWidget'
-
+import {LadifyWidget} from '@ladify/core'
 
 export default class BlankWidget extends LadifyWidget {
   static getCellW() {

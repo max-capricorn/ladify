@@ -1,5 +1,5 @@
 {
-  "name": "xe-low-code",
+  "name": "@ladify/core",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --host",
@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@ladify/antd4": "workspace:*",
-    "@ladify/core": "workspace:*",
     "@ant-design/icons": "^4.7.0",
     "@vue/reactivity": "^3.2.23",
     "antd": "^4.17.2",

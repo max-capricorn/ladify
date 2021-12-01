@@ -8,8 +8,6 @@
     "server": "node ./server.js"
   },
   "dependencies": {
-    "@ladify/antd4": "workspace:*",
-    "@ladify/core": "workspace:*",
     "@ant-design/icons": "^4.7.0",
     "@vue/reactivity": "^3.2.23",
     "antd": "^4.17.2",

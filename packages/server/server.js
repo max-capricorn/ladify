@@ -8,16 +8,17 @@ app.use(express.json())
 
 var fs = require("fs");
 
+var appBase = '../app/src/'
 app.get('/script', function (req, res) {
   let pid = req.query.pageId;
-  let rpath = `./src/business/${pid}/index.js`;
+  let rpath = `${appBase}business/${pid}/index.js`;
   let contentText = fs.readFileSync(rpath)
   res.end(contentText);
 })
 
 app.post('/script', function (req, res) {
   let pid = req.query.pageId;
-  let rpath = `./src/business/${pid}/index.js`;
+  let rpath = `${appBase}business/${pid}/index.js`;
   console.log(rpath)
   fse.outputFile(rpath, req.body.d, (err) => {
     if (err) {
@@ -31,7 +32,7 @@ app.post('/script', function (req, res) {
 
 app.post('/saveLayout', function (req, res) {
   let pid = req.query.pageId;
-  let rpath = `./src/pages/${pid}/layout.json`;
+  let rpath = `${appBase}pages/${pid}/layout.json`;
   fse.outputFile(rpath, JSON.stringify(req.body, null, 4), (err) => {
     if (err) {
       console.log(err);
@@ -44,7 +45,7 @@ app.post('/saveLayout', function (req, res) {
 
 app.get('/getLayout', function (req, res) {
   let pid = req.query.pageId;
-  let rpath = `./src/pages/${pid}/layout.json`;
+  let rpath = `${appBase}pages/${pid}/layout.json`;
   let contentText = fs.readFileSync(rpath)
   res.end(contentText);
 })

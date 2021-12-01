@@ -1,7 +1,6 @@
 
 import React from 'react';
-// import GGEditor, {Flow} from 'gg-editor';
-import LadifyWidget from '../ladify/LadifyWidget'
+import {LadifyWidget} from '@ladify/core'
 
 const data = {
   nodes: [

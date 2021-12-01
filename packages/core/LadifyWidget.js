@@ -1,6 +1,6 @@
 import React from 'react';
 import { effect } from '@vue/reactivity';
-export default class LadifyWidget extends React.Component {
+export class LadifyWidget extends React.Component {
 
   constructor(props) {
     super(props);

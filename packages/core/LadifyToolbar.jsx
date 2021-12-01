@@ -1,7 +1,7 @@
 import React,{PureComponent} from 'react';
 import {Layout, Button, Drawer, Switch} from 'antd';
 import {WidthProvider, Responsive} from "react-grid-layout";
-import importedWidgets from '../custom'
+import importedWidgets from '@ladify/antd4'
 import MonacoEditor from "react-monaco-editor";
 import {reactive} from '@vue/reactivity';
 import service from './LadifyService'
@@ -11,7 +11,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const {Header, Content} = Layout;
 
 
-export default class LadifyToolbar extends PureComponent {
+export class LadifyToolbar extends PureComponent {
   static defaultProps = {
     grid:{
       cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},

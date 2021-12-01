@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import LadifyToolbar from '../../ladify/LadifyToolbar';
-// import json from "./layout.json"
+import {LadifyToolbar} from '@ladify/core'
 import logic from "../../business/home"
 
 export default function () {

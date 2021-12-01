@@ -1,4 +1,4 @@
-export default class LadifyPageContext {
+export class LadifyPageContext {
   constructor() {
     this.widgets = {}
   }

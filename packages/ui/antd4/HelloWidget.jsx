@@ -1,5 +1,5 @@
 import React from 'react';
-import LadifyWidget from '../ladify/LadifyWidget'
+import {LadifyWidget} from '@ladify/core'
 
 
 export default class HelloWidget extends LadifyWidget {

@@ -1,6 +1,4 @@
-
-// this file should contains all the business logic 
-import LadifyPageContext from '../../ladify/LadifyPageContext'
+import {LadifyPageContext} from '@ladify/core'
 
 export default class FormLogic extends LadifyPageContext {
   handleEvent(id, type, payload) {
