@@ -304,7 +304,7 @@ export class LadifyToolbar extends React.Component {
         </Header>
 
         <Content style={{marginTop: 44}}>
-          <div ref={this.containerRef} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{background: '#eee', padding: this.state.gridPadding,width:this.props.view.width, margin:'0 auto', minHeight: 800, position: 'relative'}}>
+          <div ref={this.containerRef} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{border: '1px solid red',background: '#eee', padding: this.state.gridPadding,width:this.props.view.width, margin:'0 auto', minHeight: 800, position: 'relative'}}>
             <ResponsiveReactGridLayout
               className="layout"
               {...this.state.grid}
@@ -323,15 +323,6 @@ export class LadifyToolbar extends React.Component {
               {this.generateDOM()}
 
             </ResponsiveReactGridLayout>
-
-              <div style={{
-                position: 'absolute',
-                top: `${'' + 0 + 'px'}`,
-                left: `${'' + 0 + 'px'}`,
-                width: '100%',
-                height:'100%',
-                border: '5px solid red', zIndex: 99999
-              }}></div>
 
             {this.state.selection.ing ? (
               <div style={{
