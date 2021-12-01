@@ -7,8 +7,9 @@
     "serve": "vite preview"
   },
   "files": [
-    "packages/core/*.js",
-    "packages/core/*.jsx"
+    "*.css",
+    "*.js",
+    "*.jsx"
   ],
   "dependencies": {
     "@ladify/antd3": "workspace:*",
