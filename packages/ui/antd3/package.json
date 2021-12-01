@@ -1,18 +1,16 @@
 {
-  "name": "@ladify/core",
+  "name": "@ladify/antd3",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "server": "node ./server.js"
   },
   "dependencies": {
-    "@ladify/antd3": "workspace:*",
-    "@ant-design/icons": "^4.7.0",
+    "@ladify/core": "workspace:*",
     "@vue/reactivity": "^3.2.23",
-    "antd": "^4.17.2",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "antd": "^3.17.0",
     "fs-extra": "^10.0.0",
     "monaco-editor": "^0.30.1",
     "react": "^17.0.0",
