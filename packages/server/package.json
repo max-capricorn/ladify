@@ -1,5 +1,5 @@
 {
-  "name": "@ladify/mockServer",
+  "name": "localserver",
   "version": "0.0.0",
   "scripts": {
     "dev": "node ./server.js"
