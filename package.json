@@ -9,6 +9,15 @@
     "dev:server": "cd ./packages/server && node ./server.js",
     "publish": "pnpm publish"
   },
+  "files": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.tsx",
+    "**/*.css",
+    "**/*.md",
+    "*.md",
+    "LICENSE"
+  ],
   "devDependencies": {
     "@types/lodash-es": "4.17.4",
     "@types/node": "15.0.2",
