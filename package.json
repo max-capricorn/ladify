@@ -10,11 +10,11 @@
     "publish": "pnpm publish"
   },
   "files": [
-    "**/*.js",
-    "**/*.jsx",
-    "**/*.tsx",
-    "**/*.css",
-    "**/*.md",
+    "*.js",
+    "*.jsx",
+    "*.tsx",
+    "*.css",
+    "*.md",
     "*.md",
     "LICENSE"
   ],
