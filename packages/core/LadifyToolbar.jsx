@@ -116,28 +116,23 @@ export  class LadifyToolbar extends React.Component {
     });
   };
   findWidgets() {
-    let gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
-    let colWidth = Math.floor(gridWitdth / this.state.cur_responsive.cols);
-    let elementGridList = this.state.layouts[this.state.cur_responsive.breakpoint];
-    elementGridList.map((item) => {
-      // 每一个元素的x
-      let elementX = Math.floor(item.x * colWidth);
-      // 每一个元素的y
-      let elementY = item.y * this.state.grid.rowHeight;
-      // 每一个元素的宽度
-      let elementWidth = Math.floor(item.w * colWidth);
-      // 每一个元素的高度
-      let elementHeight = item.h * this.state.grid.rowHeight;
+    console.log("this.containerRef",this.containerRef)
+    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
+    const colWidth = Math.floor(gridWitdth / this.state.cur_responsive.cols);
+    const layoutedWidgets = this.state.layouts[this.state.cur_responsive.breakpoint];
+    layoutedWidgets.map((item) => {
 
-      let mouseTop = this.state.rect.top;
-      let mouseLeft = this.state.rect.left;
-      let mouseWidth = this.state.rect.width;
-      let mouseHeight = this.state.rect.height;
+      const widgetX = Math.floor(item.x * colWidth);
+      const widgetY = item.y * this.state.grid.rowHeight;
+      const widgetWidth = Math.floor(item.w * colWidth);
+      const widgetHeight = item.h * this.state.grid.rowHeight;
 
-      let leftFlag = mouseLeft <= elementX;
-      let rightFlag = mouseLeft + mouseWidth >= elementWidth + elementX;
-      let topFlag = mouseTop <= elementY;
-      let bottomFlag = elementHeight + elementY < mouseTop + mouseHeight;
+      const {top:rt,left:rl,width:rw,height:rh} = {...this.state.rect}
+
+      const leftFlag = rl <= widgetX;
+      const rightFlag = rl + rw >= widgetWidth + widgetX;
+      const topFlag = rt <= widgetY;
+      const bottomFlag = widgetHeight + widgetY <= rt + rh;
 
       if (leftFlag && rightFlag && topFlag && bottomFlag) {
         let newWidgets = this.state.widgets.map(w=>{ if(w.i === item.i){ w.selected=true; } return w; })
@@ -161,7 +156,7 @@ export  class LadifyToolbar extends React.Component {
     if (!this.state.selection.enabled) return;
     if (this.state.selection.ing) {
       let x = e.pageX;
-      let y = e.pageY - 64;
+      let y = e.pageY - this.containerRef.current.offsetTop;
 
       this.setState(
         {
@@ -187,7 +182,7 @@ export  class LadifyToolbar extends React.Component {
   mouseDown(e) {
     if (!this.state.selection.enabled) return;
     let x = e.pageX;
-    let y = e.pageY - 64;
+    let y = e.pageY - this.containerRef.current.offsetTop;
 
     this.setState(
       {
@@ -215,6 +210,7 @@ export  class LadifyToolbar extends React.Component {
   }
 
   addElement(type) {
+    // TODO: using reactive to connect rdata
     const addItem = reactive({
       selected: true,
       i: '' + this.maxId++
@@ -226,9 +222,7 @@ export  class LadifyToolbar extends React.Component {
           type,
         }),
       }
-      , () => {
-        console.log("state", this.state)
-      });
+    );
 
   };
 
