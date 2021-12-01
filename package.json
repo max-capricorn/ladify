@@ -1,13 +1,13 @@
 {
   "name": "ladify",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "",
   "author": "Zk",
   "license": "MIT",
   "scripts": {
-    "dev:app":"cd ./packages/app && pnpm dev",
-    "dev:server":"cd ./packages/server && node ./server.js",
-    "publish":"pnpm publish"
+    "dev:app": "cd ./packages/app && pnpm dev",
+    "dev:server": "cd ./packages/server && node ./server.js",
+    "publish": "pnpm publish"
   },
   "devDependencies": {
     "@types/lodash-es": "4.17.4",
