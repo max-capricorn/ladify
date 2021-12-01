@@ -18,7 +18,8 @@ export class LadifyToolbar extends React.Component {
       margin: [0, 0],
       isDraggable: true,
       isResizable: true
-    }
+    },
+    view: { width: '100%' }
   };
 
   constructor(props) {
@@ -42,7 +43,7 @@ export class LadifyToolbar extends React.Component {
       rect: {left: 0, top: 0, width: 0, height: 0},
       cur_responsive: {breakpoint: 'lg', cols: 12},
       // grid 的内边距
-      gridPadding: 20,
+      gridPadding: 0,
     };
   }
   clearAll() {this.maxId = 1; this.setState({layouts: {}, widgets: []})}
@@ -303,7 +304,7 @@ export class LadifyToolbar extends React.Component {
         </Header>
 
         <Content style={{marginTop: 44}}>
-          <div ref={this.containerRef} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{background: '#eee', padding: this.state.gridPadding, minHeight: 800, position: 'relative'}}>
+          <div ref={this.containerRef} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{background: '#eee', padding: this.state.gridPadding,width:this.props.view.width, margin:'0 auto', minHeight: 800, position: 'relative'}}>
             <ResponsiveReactGridLayout
               className="layout"
               {...this.state.grid}
@@ -329,7 +330,7 @@ export class LadifyToolbar extends React.Component {
                 left: `${'' + 0 + 'px'}`,
                 width: '100%',
                 height:'100%',
-                border: '1px solid red', zIndex: 99999
+                border: '5px solid red', zIndex: 99999
               }}></div>
 
             {this.state.selection.ing ? (

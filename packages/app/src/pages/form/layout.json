@@ -46,6 +46,152 @@
                 "moved": false,
                 "static": false
             }
+        ],
+        "xs": [
+            {
+                "w": 4,
+                "h": 2,
+                "x": 0,
+                "y": 0,
+                "i": "1",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 9,
+                "i": "2",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 7,
+                "i": "goodway",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 5,
+                "x": 0,
+                "y": 2,
+                "i": "4",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 8,
+                "i": "5",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 10,
+                "i": "6",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 11,
+                "i": "7",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 12,
+                "i": "8",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 13,
+                "i": "9",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 14,
+                "i": "10",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 15,
+                "i": "11",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 16,
+                "i": "12",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 17,
+                "i": "13",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 18,
+                "i": "14",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 19,
+                "i": "15",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 20,
+                "i": "16",
+                "moved": false,
+                "static": false
+            }
         ]
     },
     "widgets": [
@@ -68,7 +214,51 @@
         {
             "i": "5",
             "type": "BtnWidget"
+        },
+        {
+            "i": "6",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "7",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "8",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "9",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "10",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "11",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "12",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "13",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "14",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "15",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "16",
+            "type": "BtnWidget"
         }
     ],
-    "maxId": 6
+    "maxId": 17
 }
