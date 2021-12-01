@@ -2,7 +2,7 @@ import React from 'react';
 import {LadifyWidget} from '@ladify/core'
 
 
-export default class HelloWidget extends LadifyWidget {
+export default class GoodWidget extends LadifyWidget {
   static getType(){
     return "button"
   }

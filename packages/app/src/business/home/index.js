@@ -5,7 +5,7 @@ import {LadifyPageContext} from '@ladify/core'
 let timer = null;
 export default class HomeLogic extends LadifyPageContext {
   handleEvent(id, type, payload) {
-    if (type === 'componentWillMount'){
+    if (type === 'componentDidMount'){
       if (id === 'btn:ok') {
           this.setState('btn:ok', 'content','OK');
       }
