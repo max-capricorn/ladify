@@ -6,6 +6,10 @@
     "build": "vite build",
     "serve": "vite preview"
   },
+  "files": [
+    "packages/core/*.js",
+    "packages/core/*.jsx"
+  ],
   "dependencies": {
     "@ladify/antd3": "workspace:*",
     "@ant-design/icons": "^4.7.0",
