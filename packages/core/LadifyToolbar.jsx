@@ -11,7 +11,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const {Header, Content} = Layout;
 
 
-export  class LadifyToolbar extends React.Component {
+export class LadifyToolbar extends React.Component {
   static defaultProps = {
     grid: {
       cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
@@ -41,14 +41,14 @@ export  class LadifyToolbar extends React.Component {
         firstPoint: {x: 0, y: 0},
       },
       rect: {left: 0, top: 0, width: 0, height: 0},
-      cur_responsive: {breakpoint: 'lg',cols:12},
+      cur_responsive: {breakpoint: 'lg', cols: 12},
       // grid 的内边距
       gridPadding: 20,
     };
   }
-  clearAll() { this.maxId = 1; this.setState({layouts: {}, widgets: []}) }
+  clearAll() {this.maxId = 1; this.setState({layouts: {}, widgets: []})}
 
-  showDrawer = () => { this.setState({ isEditorShow: true, }); };
+  showDrawer = () => {this.setState({isEditorShow: true, });};
 
   changeId = (e, l) => {
     let oldi = l.i
@@ -73,7 +73,7 @@ export  class LadifyToolbar extends React.Component {
     this.forceUpdate()
   }
 
-  saveLayout() { service.saveLayout({layouts: this.state.layouts, widgets: this.state.widgets, maxId: this.maxId}, this.props.pageId); }
+  saveLayout() {service.saveLayout({layouts: this.state.layouts, widgets: this.state.widgets, maxId: this.maxId}, this.props.pageId);}
 
   generateDOM = () => {
     return this.state.widgets.map((l, i) => {
@@ -82,9 +82,9 @@ export  class LadifyToolbar extends React.Component {
         let w = importedWidgets[l.type].getCellW() || 4;
         let rdata = {logic: this.props.logic, l: l};
         return (
-          <div 
-          key={l.i} data-grid={{x: 0, y: 9999, h, w}} 
-          style={l.selected ? {'outline': '1px dashed red'} : {}}>
+          <div
+            key={l.i} data-grid={{x: 0, y: 9999, h, w}}
+            style={l.selected ? {'outline': '1px dashed red'} : {}}>
             {
               this.state.debug ? (<><span className='myid'>
                 <Button onClick={e => this.changeId(e, l)} style={{'height': '20px'}}>{l.i}</Button>
@@ -107,24 +107,24 @@ export  class LadifyToolbar extends React.Component {
     });
   };
   getBounds(e) {
-    let {offsetLeft:l,offsetTop:t,offsetWidth:w,offsetHeight:h}=this.containerRef.current
-    console.log(this.containerRef,l,t,w,h)
+    let {offsetLeft: l, offsetTop: t, offsetWidth: w, offsetHeight: h} = this.containerRef.current
+    console.log(this.containerRef, l, t, w, h)
     {
       var rect = e.target.getBoundingClientRect();
       var x = e.clientX - rect.left; //x position within the element.
       var y = e.clientY - rect.top;  //y position within the element.
-      console.log("rect",rect);
+      console.log("rect", rect);
       console.log("Left? : " + x + " ; Top? : " + y + ".");
 
       var eventInContainerX = e.pageX - l;
       var eventInContainerY = e.pageY - t;
-      console.log("mouse",eventInContainerX,eventInContainerY)
+      console.log("mouse", eventInContainerX, eventInContainerY)
 
     }
 
   }
   markWidgets() {
-    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding*2;
+    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
     const colWidth = Math.floor(gridWitdth / this.state.cur_responsive.cols);
     const layoutedWidgets = this.state.layouts[this.state.cur_responsive.breakpoint];
     layoutedWidgets.map((item) => {
@@ -134,7 +134,7 @@ export  class LadifyToolbar extends React.Component {
       const widgetWidth = Math.floor(item.w * colWidth);
       const widgetHeight = item.h * this.state.grid.rowHeight;
 
-      const {top:rt,left:rl,width:rw,height:rh} = this.state.rect
+      const {top: rt, left: rl, width: rw, height: rh} = this.state.rect
 
       const leftFlag = rl <= widgetX;
       const rightFlag = rl + rw >= widgetWidth + widgetX;
@@ -142,8 +142,8 @@ export  class LadifyToolbar extends React.Component {
       const bottomFlag = widgetHeight + widgetY <= rt + rh;
 
       if (leftFlag && rightFlag && topFlag && bottomFlag) {
-        let newWidgets = this.state.widgets.map(w=>{ if(w.i === item.i){ w.selected=true; } return w; })
-        this.setState({widgets:newWidgets })
+        let newWidgets = this.state.widgets.map(w => {if (w.i === item.i) {w.selected = true;} return w;})
+        this.setState({widgets: newWidgets})
       }
 
     });
@@ -253,7 +253,7 @@ export  class LadifyToolbar extends React.Component {
         selection: {
           ... this.state.selection,
           enabled: true,
-          ing:false
+          ing: false
         }
       }
     )
@@ -266,7 +266,7 @@ export  class LadifyToolbar extends React.Component {
           selection: {
             ... this.state.selection,
             enabled: false,
-            ing:false
+            ing: false
           }
         }
       )
@@ -275,35 +275,18 @@ export  class LadifyToolbar extends React.Component {
   }
 
   render() {
-    let editorDidMount = async (editor, monoco) => {
+
+    const editorDidMount = async (editor, monoco) => {
       this.editor = editor;
       let code = await service.getcode(this.props.pageId)
       editor.setValue(code)
     }
 
-    let editor = (<MonacoEditor
-      width="100%"
-      height="400"
-      language="typescript"
-      theme="vs-dark"
-      value={this.state.script}
-      editorDidMount={editorDidMount}
-      options={{
-        selectOnLineNumbers: true,
-        matchBrackets: "near",
-      }}
-    />
-    );
-
-    let onClose = () => {
-      this.setState({
-        isEditorShow: false,
-      });
-    };
     return (
       <Layout onMouseUp={e => this.mouseUp(e)} onMouseMove={e => this.mouseMove(e)}>
         <Header style={{position: 'fixed', zIndex: 999999, width: '100%', 'padding': '0 30px'}}>
-          <span style={{'color': 'white'}}>{this.state.debug ? 'Develop' : 'Preview'}</span> <Switch style={{'marginRight': '7px'}} onChange={e => {this.props.logic.clearAllWidgets(); this.setState({debug: !this.state.debug})}} checked={this.state.debug} />
+          <span style={{'color': 'white'}}>{this.state.debug ? 'Develop' : 'Preview'}</span> 
+          <Switch style={{'marginRight': '7px'}} onChange={() =>{this.props.logic.clearAllWidgets(); this.setState({debug: !this.state.debug})}} checked={this.state.debug} />
 
           {
             this.state.debug ? (
@@ -331,8 +314,8 @@ export  class LadifyToolbar extends React.Component {
               onDragStop={() => this.onDragStop()}
               onResizeStart={() => this.onDragStart()}
               onResizeStop={() => this.onDragStop()}
-              onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts) }
-              onBreakpointChange={(newBreakpoint, newCols) => this.onBreakpointChange(newBreakpoint, newCols) }
+              onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
+              onBreakpointChange={(newBreakpoint, newCols) => this.onBreakpointChange(newBreakpoint, newCols)}
               isDraggable={this.state.debug}
               isResizable={this.state.debug}
             >
@@ -343,16 +326,16 @@ export  class LadifyToolbar extends React.Component {
 
             {this.state.selection.ing ? (
               <div style={{
-                position: 'absolute', 
-                top: `${'' + this.state.rect.top + 'px'}`, 
-                left: `${'' + this.state.rect.left + 'px'}`, 
-                width: `${'' + this.state.rect.width + 'px'}`, 
-                height: `${'' + this.state.rect.height + 'px'}`, 
+                position: 'absolute',
+                top: `${'' + this.state.rect.top + 'px'}`,
+                left: `${'' + this.state.rect.left + 'px'}`,
+                width: `${'' + this.state.rect.width + 'px'}`,
+                height: `${'' + this.state.rect.height + 'px'}`,
                 backgroundColor: 'rgba(0,33,255,0.5)', zIndex: 9999999
               }}>
-                  <div style={{position: 'absolute', top: '-30px', left: 0, height: '30px'}}>
-                    {JSON.stringify(this.state.rect)}
-                  </div>
+                <div style={{position: 'absolute', top: '-30px', left: 0, height: '30px'}}>
+                  {JSON.stringify(this.state.rect)}
+                </div>
               </div>
             ) : <></>}
           </div>
@@ -362,12 +345,25 @@ export  class LadifyToolbar extends React.Component {
           height="500"
           mask={false}
           closable={true}
-          onClose={onClose}
+          onClose={ () => { this.setState({ isEditorShow: false }); }}
           destroyOnClose={true}
           visible={this.state.isEditorShow}
         >
           <Button type="primary" style={{'marginRight': '7px'}} onClick={e => service.saveCode(this.editor.getModel().getValue(), this.props.pageId)} >save</Button>
-          {editor}
+
+          <MonacoEditor
+            width          = "100%"
+            height         = "400"
+            language       = "typescript"
+            theme          = "vs-dark"
+            value          = {this.state.script}
+            editorDidMount = {editorDidMount}
+            options        = {{
+              selectOnLineNumbers: true,
+              matchBrackets: "near",
+            }}
+          />
+
         </Drawer>
       </Layout>
     )
