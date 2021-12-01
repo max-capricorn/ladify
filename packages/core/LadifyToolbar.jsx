@@ -3,7 +3,6 @@ import {Layout, Button, Drawer, Switch} from 'antd';
 import {WidthProvider, Responsive} from "react-grid-layout";
 import importedWidgets from '@ladify/antd3'
 import MonacoEditor from "react-monaco-editor";
-import {reactive} from '@vue/reactivity';
 import service from './LadifyService'
 import './Ladify.css';
 
@@ -214,10 +213,10 @@ export class LadifyToolbar extends React.Component {
   addElement(type) {
 
     // TODO: using reactive to connect rdata
-    const addItem = reactive({
+    const addItem = {
       selected: true,
       i: '' + this.maxId++
-    });
+    };
     this.setState(
       {
         widgets: this.state.widgets.concat({

@@ -1,5 +1,6 @@
 import React from 'react';
-import { effect } from '@vue/reactivity';
+// import {reactive, effect } from '@vue/reactivity';
+
 export class LadifyWidget extends React.Component {
 
   constructor(props) {
@@ -7,9 +8,10 @@ export class LadifyWidget extends React.Component {
     this.logic = props.logic;
     this.l = props.l;
     this.logic.addWidget(this)
-    effect(()=>{
-        console.log('l: ', props.l);
-    })
+
+    // effect(()=>{
+    //   console.log("state",this.state)
+    // })
   }
   onGridBoundsChanged(newL){
     this.l = newL;
