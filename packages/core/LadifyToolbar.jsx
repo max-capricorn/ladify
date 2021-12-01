@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {Layout, Button, Drawer, Switch} from 'antd';
 import {WidthProvider, Responsive} from "react-grid-layout";
 import importedWidgets from '@ladify/antd3'
@@ -11,7 +11,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const {Header, Content} = Layout;
 
 
-export class LadifyToolbar extends React.Component {
+export  class LadifyToolbar extends React.Component {
   static defaultProps = {
     grid: {
       cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
@@ -25,6 +25,7 @@ export class LadifyToolbar extends React.Component {
   constructor(props) {
     super(props);
     this.maxId = props?.layoutJson?.maxId || 1;
+    this.containerRef = React.createRef();
     this.editor = null;
 
     this.state = {
@@ -40,7 +41,9 @@ export class LadifyToolbar extends React.Component {
         firstPoint: {x: 0, y: 0},
       },
       rect: {left: 0, top: 0, width: 0, height: 0},
-      cur_responsive: {breakpoint: 'lg'}
+      cur_responsive: {breakpoint: 'lg',cols:12},
+      // 容器的内边距
+      containerPadding: 20,
     };
   }
   clearAll() {
@@ -112,6 +115,37 @@ export class LadifyToolbar extends React.Component {
       }
     });
   };
+  findWidgets() {
+    let containerWidth = this.containerRef.current.clientWidth - this.state.containerPadding * 2;
+    let colWidth = Math.floor(containerWidth / this.state.cur_responsive.cols);
+    let elementGridList = this.state.layouts[this.state.cur_responsive.breakpoint];
+    elementGridList.map((item, index) => {
+      // 每一个元素的x
+      let elementX = Math.floor(item.x * colWidth);
+      // 每一个元素的y
+      let elementY = item.y * this.state.grid.rowHeight;
+      // 每一个元素的宽度
+      let elementWidth = Math.floor(item.w * colWidth);
+      // 每一个元素的高度
+      let elementHeight = item.h * this.state.grid.rowHeight;
+
+      let mouseTop = this.state.rect.top;
+      let mouseLeft = this.state.rect.left;
+      let mouseWidth = this.state.rect.width;
+      let mouseHeight = this.state.rect.height;
+
+      let leftFlag = mouseLeft <= elementX;
+      let rightFlag = mouseLeft + mouseWidth >= elementWidth + elementX;
+      let topFlag = mouseTop <= elementY;
+      let bottomFlag = elementHeight + elementY < mouseTop + mouseHeight;
+
+      if (leftFlag && rightFlag && topFlag && bottomFlag) {
+        let newWidgets = this.state.widgets.map(w=>{ if(w.i === item.i){ w.selected=true; } return w; })
+        this.setState({widgets:newWidgets })
+      }
+
+    });
+  }
   mouseLeave(e) {
     // e.persist()
     //   this.setState(
@@ -143,6 +177,7 @@ export class LadifyToolbar extends React.Component {
       // 1. clear all selected
       this.setState({widgets: this.state.widgets.map(w => {w.selected = false; return w;})})
       // 2 caculate which widgets are selected
+      this.findWidgets();
       // 2.1 get all the grid cell rect contains 
 
       // 3 mark widgets selected 
@@ -291,7 +326,7 @@ export class LadifyToolbar extends React.Component {
         </Header>
 
         <Content style={{marginTop: 44}}>
-          <div onMouseLeave={e => {this.mouseLeave(e)}} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{background: '#eee', padding: 20, minHeight: 800, position: 'relative'}}>
+          <div ref={this.containerRef} onMouseLeave={e => {this.mouseLeave(e)}} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{background: '#eee', padding: this.state.containerPadding, minHeight: 800, position: 'relative'}}>
             <ResponsiveReactGridLayout
               className="layout"
               {...this.state.grid}
