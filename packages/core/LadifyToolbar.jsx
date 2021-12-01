@@ -42,8 +42,8 @@ export  class LadifyToolbar extends React.Component {
       },
       rect: {left: 0, top: 0, width: 0, height: 0},
       cur_responsive: {breakpoint: 'lg',cols:12},
-      // 容器的内边距
-      containerPadding: 20,
+      // grid 的内边距
+      gridPadding: 20,
     };
   }
   clearAll() {
@@ -116,10 +116,10 @@ export  class LadifyToolbar extends React.Component {
     });
   };
   findWidgets() {
-    let containerWidth = this.containerRef.current.clientWidth - this.state.containerPadding * 2;
-    let colWidth = Math.floor(containerWidth / this.state.cur_responsive.cols);
+    let gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
+    let colWidth = Math.floor(gridWitdth / this.state.cur_responsive.cols);
     let elementGridList = this.state.layouts[this.state.cur_responsive.breakpoint];
-    elementGridList.map((item, index) => {
+    elementGridList.map((item) => {
       // 每一个元素的x
       let elementX = Math.floor(item.x * colWidth);
       // 每一个元素的y
@@ -326,7 +326,7 @@ export  class LadifyToolbar extends React.Component {
         </Header>
 
         <Content style={{marginTop: 44}}>
-          <div ref={this.containerRef} onMouseLeave={e => {this.mouseLeave(e)}} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{background: '#eee', padding: this.state.containerPadding, minHeight: 800, position: 'relative'}}>
+          <div ref={this.containerRef} onMouseLeave={e => {this.mouseLeave(e)}} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{background: '#eee', padding: this.state.gridPadding, minHeight: 800, position: 'relative'}}>
             <ResponsiveReactGridLayout
               className="layout"
               {...this.state.grid}
