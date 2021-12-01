@@ -46,16 +46,9 @@ export  class LadifyToolbar extends React.Component {
       gridPadding: 20,
     };
   }
-  clearAll() {
-    this.maxId = 1;
-    this.setState({layouts: {}, widgets: []})
-  }
+  clearAll() { this.maxId = 1; this.setState({layouts: {}, widgets: []}) }
 
-  showDrawer = () => {
-    this.setState({
-      isEditorShow: true,
-    });
-  };
+  showDrawer = () => { this.setState({ isEditorShow: true, }); };
 
   changeId = (e, l) => {
     let oldi = l.i
@@ -80,9 +73,7 @@ export  class LadifyToolbar extends React.Component {
     this.forceUpdate()
   }
 
-  saveLayout() {
-    service.saveLayout({layouts: this.state.layouts, widgets: this.state.widgets, maxId: this.maxId}, this.props.pageId);
-  }
+  saveLayout() { service.saveLayout({layouts: this.state.layouts, widgets: this.state.widgets, maxId: this.maxId}, this.props.pageId); }
 
   generateDOM = () => {
     return this.state.widgets.map((l, i) => {
@@ -157,19 +148,12 @@ export  class LadifyToolbar extends React.Component {
 
     });
   }
-  mouseLeave(e) {
-    // e.persist()
-    //   this.setState(
-    //     {
-    //       selection:{
-    //         ... this.state.selection,
-    //         ing:false
-    //       }
-    //     }
-    //   )
-  }
+
   mouseMove(e) {
+
+    // TODO: this is test code 
     this.getBounds(e)
+
     if (!this.state.selection.enabled) return;
     if (this.state.selection.ing) {
       let x = e.pageX;
@@ -188,11 +172,11 @@ export  class LadifyToolbar extends React.Component {
       )
       // 1. clear all selected
       this.setState({widgets: this.state.widgets.map(w => {w.selected = false; return w;})})
-      // 2 caculate which widgets are selected
-      this.markWidgets();
-      // 2.1 get all the grid cell rect contains 
 
-      // 3 mark widgets selected 
+      // 2 caculate which widgets are selected
+      //   get all the grid cell rect contains 
+      //   mark widgets selected 
+      this.markWidgets();
 
     }
   }
@@ -212,6 +196,7 @@ export  class LadifyToolbar extends React.Component {
       }
     )
   }
+
   mouseUp(e) {
     if (!this.state.selection.enabled) return;
     this.setState(
@@ -227,6 +212,7 @@ export  class LadifyToolbar extends React.Component {
   }
 
   addElement(type) {
+
     // TODO: using reactive to connect rdata
     const addItem = reactive({
       selected: true,
@@ -337,7 +323,7 @@ export  class LadifyToolbar extends React.Component {
         </Header>
 
         <Content style={{marginTop: 44}}>
-          <div ref={this.containerRef} onMouseLeave={e => {this.mouseLeave(e)}} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{background: '#eee', padding: this.state.gridPadding, minHeight: 800, position: 'relative'}}>
+          <div ref={this.containerRef} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{background: '#eee', padding: this.state.gridPadding, minHeight: 800, position: 'relative'}}>
             <ResponsiveReactGridLayout
               className="layout"
               {...this.state.grid}
