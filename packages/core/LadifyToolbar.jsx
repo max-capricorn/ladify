@@ -246,8 +246,7 @@ export  class LadifyToolbar extends React.Component {
     this.setState({layouts});
   }
 
-  onDragStop(layout, oldItem, newItem, placeholder, e, element) {
-    console.log(layout, oldItem, newItem, placeholder, e, element)
+  onDragStop() {
     // unsync
     this.setState(
       {
@@ -259,8 +258,7 @@ export  class LadifyToolbar extends React.Component {
       }
     )
   }
-  onDragStart(layout, oldItem, newItem, placeholder, e, element) {
-    console.log(layout, oldItem, newItem, placeholder, e, element)
+  onDragStart() {
     // make setState sync 
     setTimeout(() => {
       this.setState(
@@ -329,32 +327,34 @@ export  class LadifyToolbar extends React.Component {
               {...this.state.grid}
               layouts={this.state.layouts}
               useCSSTransforms={false}
-              onDragStart={(layout, oldItem, newItem, placeholder, e, element) => this.onDragStart(layout, oldItem, newItem, placeholder, e, element)}
-              onDragStop={(layout, oldItem, newItem, placeholder, e, element) => this.onDragStop(layout, oldItem, newItem, placeholder, e, element)}
-              onResizeStart={(layout, oldItem, newItem, placeholder, e, element) => this.onDragStart(layout, oldItem, newItem, placeholder, e, element)}
-              onResizeStop={(layout, oldItem, newItem, placeholder, e, element) => this.onDragStop(layout, oldItem, newItem, placeholder, e, element)}
-              onLayoutChange={(layout, layouts) =>
-                this.onLayoutChange(layout, layouts)
-              }
-              onBreakpointChange={(newBreakpoint, newCols) =>
-                this.onBreakpointChange(newBreakpoint, newCols)
-              }
+              onDragStart={() => this.onDragStart()}
+              onDragStop={() => this.onDragStop()}
+              onResizeStart={() => this.onDragStart()}
+              onResizeStop={() => this.onDragStop()}
+              onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts) }
+              onBreakpointChange={(newBreakpoint, newCols) => this.onBreakpointChange(newBreakpoint, newCols) }
               isDraggable={this.state.debug}
               isResizable={this.state.debug}
             >
+
               {this.generateDOM()}
+
             </ResponsiveReactGridLayout>
+
             {this.state.selection.ing ? (
-              <>
-                <div style={{position: 'absolute', top: `${'' + this.state.rect.top + 'px'}`, left: `${'' + this.state.rect.left + 'px'}`, width: `${'' + this.state.rect.width + 'px'}`, height: `${'' + this.state.rect.height + 'px'}`, backgroundColor: 'rgba(0,33,255,0.5)', zIndex: 9999999}}>
+              <div style={{
+                position: 'absolute', 
+                top: `${'' + this.state.rect.top + 'px'}`, 
+                left: `${'' + this.state.rect.left + 'px'}`, 
+                width: `${'' + this.state.rect.width + 'px'}`, 
+                height: `${'' + this.state.rect.height + 'px'}`, 
+                backgroundColor: 'rgba(0,33,255,0.5)', zIndex: 9999999
+              }}>
                   <div style={{position: 'absolute', top: '-30px', left: 0, height: '30px'}}>
                     {JSON.stringify(this.state.rect)}
                   </div>
-
-                </div>
-
-              </>
-            ) : ""}
+              </div>
+            ) : <></>}
           </div>
         </Content>
         <Drawer
