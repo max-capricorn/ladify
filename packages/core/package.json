@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "@ladify/core",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
