@@ -4,7 +4,10 @@
   "description": "",
   "author": "Zk",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev:app":"cd ./packages/app && pnpm dev",
+    "dev:server":"cd ./packages/server && node ./server.js"
+  },
   "devDependencies": {
     "@types/lodash-es": "4.17.4",
     "@types/node": "15.0.2",
