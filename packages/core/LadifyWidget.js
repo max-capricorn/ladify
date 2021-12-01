@@ -11,7 +11,12 @@ export class LadifyWidget extends React.Component {
         console.log('l: ', props.l);
     })
   }
-
+  onGridBoundsChanged(newL){
+    this.l = newL;
+  }
+  getBounds(){
+    return this.l
+  }
   static getCellW(){
     return null;
   }
@@ -27,9 +32,6 @@ export class LadifyWidget extends React.Component {
   }
   componentDidMount(){
     this.emitEvent('componentDidMount', this.getId())
-  }
-  componentWillMount(){
-    this.emitEvent('componentWillMount', this.getId())
   }
 
   getSmartState(key) {

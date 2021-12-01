@@ -2,6 +2,19 @@ export class LadifyPageContext {
   constructor() {
     this.widgets = {}
   }
+  updateBounds(newWidgets) {
+    if (newWidgets) {
+      newWidgets.forEach(w => {
+        let c = this.widgets[w.i];
+        if (c && c.getId() === w.i) {
+          let b =c.getBounds();
+          if (b.w !== w.w || b.h !== w.h) {
+            c.onGridBoundsChanged(w);
+          }
+        }
+      })
+    }
+  }
   sendMessage(id, type, payload) {
     let x = this.widgets[id];
     if (x)
@@ -28,9 +41,8 @@ export class LadifyPageContext {
     let w2 = this.widgets[id]
     if (!w2)
       this.widgets[id] = w;
-    else 
-    {
-      console.error("应该在 layoutToolbar  就会去重，但还是发现了重复的 id:"+id);
+    else {
+      console.error("应该在 layoutToolbar  就会去重，但还是发现了重复的 id:" + id);
     }
   }
 

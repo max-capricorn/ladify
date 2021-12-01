@@ -5,7 +5,7 @@
                 "w": 4,
                 "h": 1,
                 "x": 4,
-                "y": 11,
+                "y": 20,
                 "i": "btn:cancel",
                 "moved": false,
                 "static": false
@@ -33,7 +33,7 @@
                 "h": 1,
                 "x": 8,
                 "y": 0,
-                "i": "4",
+                "i": "btn:search",
                 "moved": false,
                 "static": false
             },
@@ -66,7 +66,7 @@
             },
             {
                 "w": 12,
-                "h": 9,
+                "h": 18,
                 "x": 0,
                 "y": 2,
                 "i": "table:main",
@@ -86,8 +86,26 @@
                 "w": 4,
                 "h": 1,
                 "x": 8,
-                "y": 11,
+                "y": 20,
                 "i": "btn:ok",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 12,
+                "h": 12,
+                "x": 0,
+                "y": 21,
+                "i": "14",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 1,
+                "h": 1,
+                "x": 0,
+                "y": 33,
+                "i": "15",
                 "moved": false,
                 "static": false
             }
@@ -107,7 +125,7 @@
             "type": "InputWidget"
         },
         {
-            "i": "4",
+            "i": "btn:search",
             "type": "DropDownWidget"
         },
         {
@@ -133,7 +151,15 @@
         {
             "i": "btn:ok",
             "type": "BtnWidget"
+        },
+        {
+            "i": "14",
+            "type": "TableWidget"
+        },
+        {
+            "i": "15",
+            "type": "DropDownWidget"
         }
     ],
-    "maxId": 14
+    "maxId": 16
 }
