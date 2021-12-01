@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev:app":"cd ./packages/app && pnpm dev",
-    "dev:server":"cd ./packages/server && node ./server.js"
+    "dev:server":"cd ./packages/server && node ./server.js",
+    "publish":"pnpm publish"
   },
   "devDependencies": {
     "@types/lodash-es": "4.17.4",
