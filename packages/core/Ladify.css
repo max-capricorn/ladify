@@ -51,7 +51,7 @@
 .react-grid-item:hover .myid{
   display:inline-block;
 }
-.myevent{
+.script{
   font-size:20px;
   position: absolute;
   right: 18px;
@@ -62,7 +62,7 @@
   display:none;
 }
 
-.react-grid-item:hover .myevent{
+.react-grid-item:hover .script{
   display:inline-block;
 }
 .react-grid-item{

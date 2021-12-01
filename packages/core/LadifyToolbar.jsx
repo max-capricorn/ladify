@@ -93,12 +93,12 @@ export  class LadifyToolbar extends React.Component {
         return (
           <div 
           key={l.i} data-grid={{x: 0, y: 9999, h, w}} 
-          style={l.selected ? {'outline': '3px dashed red'} : {}}>
+          style={l.selected ? {'outline': '1px dashed red'} : {}}>
             {
               this.state.debug ? (<><span className='myid'>
                 <Button onClick={e => this.changeId(e, l)} style={{'height': '20px'}}>{l.i}</Button>
               </span>
-                <span className='myevent' onClick={this.showDrawer}>e</span>
+                <span className='script' onClick={this.showDrawer}>e</span>
                 <span className='remove' onClick={this.onRemoveItem.bind(this, i)}>x</span>
               </>) : ""
             }
@@ -115,9 +115,25 @@ export  class LadifyToolbar extends React.Component {
       }
     });
   };
-  findWidgets() {
-    console.log("this.containerRef",this.containerRef)
-    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
+  getBounds(e) {
+    let {offsetLeft:l,offsetTop:t,offsetWidth:w,offsetHeight:h}=this.containerRef.current
+    console.log(this.containerRef,l,t,w,h)
+    {
+      var rect = e.target.getBoundingClientRect();
+      var x = e.clientX - rect.left; //x position within the element.
+      var y = e.clientY - rect.top;  //y position within the element.
+      console.log("rect",rect);
+      console.log("Left? : " + x + " ; Top? : " + y + ".");
+
+      var eventInContainerX = e.pageX - l;
+      var eventInContainerY = e.pageY - t;
+      console.log("mouse",eventInContainerX,eventInContainerY)
+
+    }
+
+  }
+  markWidgets() {
+    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding*2;
     const colWidth = Math.floor(gridWitdth / this.state.cur_responsive.cols);
     const layoutedWidgets = this.state.layouts[this.state.cur_responsive.breakpoint];
     layoutedWidgets.map((item) => {
@@ -127,7 +143,7 @@ export  class LadifyToolbar extends React.Component {
       const widgetWidth = Math.floor(item.w * colWidth);
       const widgetHeight = item.h * this.state.grid.rowHeight;
 
-      const {top:rt,left:rl,width:rw,height:rh} = {...this.state.rect}
+      const {top:rt,left:rl,width:rw,height:rh} = this.state.rect
 
       const leftFlag = rl <= widgetX;
       const rightFlag = rl + rw >= widgetWidth + widgetX;
@@ -153,6 +169,7 @@ export  class LadifyToolbar extends React.Component {
     //   )
   }
   mouseMove(e) {
+    this.getBounds(e)
     if (!this.state.selection.enabled) return;
     if (this.state.selection.ing) {
       let x = e.pageX;
@@ -172,7 +189,7 @@ export  class LadifyToolbar extends React.Component {
       // 1. clear all selected
       this.setState({widgets: this.state.widgets.map(w => {w.selected = false; return w;})})
       // 2 caculate which widgets are selected
-      this.findWidgets();
+      this.markWidgets();
       // 2.1 get all the grid cell rect contains 
 
       // 3 mark widgets selected 
