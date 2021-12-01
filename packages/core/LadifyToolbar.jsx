@@ -283,7 +283,7 @@ export class LadifyToolbar extends React.Component {
 
     return (
       <Layout onMouseUp={e => this.mouseUp(e)} onMouseMove={e => this.mouseMove(e)}>
-        <Header style={{position: 'fixed', zIndex: 999999, width: '100%', 'padding': '0 30px'}}>
+        <Header style={{position: 'fixed', zIndex: 999999, width: '100%','bottom':'0', 'padding': '0 30px'}}>
           <span style={{'color': 'white'}}>{this.state.debug ? 'Develop' : 'Preview'}</span> 
           <Switch style={{'marginRight': '7px'}} onChange={() =>{this.props.logic.clearAllWidgets(); this.setState({debug: !this.state.debug})}} checked={this.state.debug} />
 
@@ -322,6 +322,15 @@ export class LadifyToolbar extends React.Component {
               {this.generateDOM()}
 
             </ResponsiveReactGridLayout>
+
+              <div style={{
+                position: 'absolute',
+                top: `${'' + 0 + 'px'}`,
+                left: `${'' + 0 + 'px'}`,
+                width: '100%',
+                height:'100%',
+                border: '1px solid red', zIndex: 99999
+              }}></div>
 
             {this.state.selection.ing ? (
               <div style={{
