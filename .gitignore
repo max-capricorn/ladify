@@ -2,3 +2,4 @@ dist
 publish
 build
 lib
+node_modules
