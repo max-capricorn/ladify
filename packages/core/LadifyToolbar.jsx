@@ -29,6 +29,8 @@ export class LadifyToolbar extends React.Component {
 
     this.maxId = props?.layoutJson?.maxId || 1;
     this.containerRef = React.createRef();
+    this.isMouseDown = false;
+    this.isMouseMoved = false;
     this.editor = null;
 
     this.state = {
@@ -149,6 +151,7 @@ export class LadifyToolbar extends React.Component {
   }
 
   mouseMove(e) {
+    this.isMouseMoved=true;
     if (!this.state.selection.enabled) return;
     if (this.state.selection.ing) {
       let {x,y}=this.getRelativeXY(e)
@@ -174,6 +177,8 @@ export class LadifyToolbar extends React.Component {
     }
   }
   mouseDown(e) {
+    this.isMouseDown=true;
+    this.isMouseMoved=false;
     if (!this.state.selection.enabled) return;
     let {x,y}=this.getRelativeXY(e)
     this.setState(
@@ -189,6 +194,11 @@ export class LadifyToolbar extends React.Component {
   }
 
   mouseUp(e) {
+    this.isMouseDown=false;
+
+    if(!this.isMouseMoved)
+      this.setState({widgets: this.state.widgets.map(w => {w.selected = false; return w;})})
+
     if (!this.state.selection.enabled) return;
     this.setState(
       {
