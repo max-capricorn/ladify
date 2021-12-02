@@ -133,7 +133,19 @@
         {
             "i": "btn:search",
             "type": "BtnWidget"
+        },
+        {
+            "i": "20",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "haha",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "67777777",
+            "type": "BtnWidget"
         }
     ],
-    "maxId": 20
+    "maxId": 23
 }

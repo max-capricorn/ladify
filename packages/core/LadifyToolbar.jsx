@@ -56,7 +56,7 @@ export class LadifyToolbar extends React.Component {
 
   showDrawer = () => {this.setState({isEditorShow: true, });};
 
-  changeId = (e, l) => {
+  changeId =async (e, l) => {
     let oldi = l.i
     let newi = prompt(`change id ${oldi} to: `, l.i);
     if (!newi) return;
@@ -66,20 +66,28 @@ export class LadifyToolbar extends React.Component {
       alert('重复的 id ' + newi + " ，重试");
       return;
     }
+
     l.i = newi
+
 
     let keys = Object.keys(this.state.layouts);
     keys.forEach(k => {
       let curLayout = this.state.layouts[k];
       let targetW = curLayout.filter(m => m.i === oldi)
       if (targetW.length > 0)
+      {
         targetW[0].i = l.i;
+        console.log("changed....",targetW[0])
+      }
     })
-    this.saveLayout();
+    console.log(this.state.layouts)
+    console.log(this.state.widgets)
+
+    await this.saveLayout();
     this.forceUpdate()
   }
 
-  saveLayout() {service.saveLayout({layouts: this.state.layouts, widgets: this.state.widgets, maxId: this.maxId}, this.props.pageId);}
+  async saveLayout() { await service.saveLayout({layouts: this.state.layouts, widgets: this.state.widgets, maxId: this.maxId}, this.props.pageId);}
 
   generateDOM = () => {
     return this.state.widgets.map((l, i) => {
@@ -196,6 +204,7 @@ export class LadifyToolbar extends React.Component {
   }
 
   mouseUp(e) {
+
     this.isMouseDown=false;
 
     if(!this.isMouseMoved)
@@ -246,7 +255,7 @@ export class LadifyToolbar extends React.Component {
 
   onLayoutChange(widgets, layouts) {
     this.props.logic.updateBounds(widgets);
-    this.setState({layouts});
+    // this.setState({layouts});
   }
 
   onDragStop() {
