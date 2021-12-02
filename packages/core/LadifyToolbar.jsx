@@ -287,25 +287,6 @@ export class LadifyToolbar extends React.Component {
 
     return (
       <Layout onMouseUp={e => this.mouseUp(e)} onMouseMove={e => this.mouseMove(e)}>
-        <Header style={{position: 'fixed', zIndex: 999999, width: '100%','bottom':'0', 'padding': '0 30px'}}>
-          <span style={{'color': 'white'}}>{this.state.debug ? 'Develop' : 'Preview'}</span> 
-          <Switch style={{'marginRight': '7px'}} onChange={() =>{this.props.logic.clearAllWidgets(); this.setState({debug: !this.state.debug})}} checked={this.state.debug} />
-
-          {
-            this.state.debug ? (
-              <>
-                <Button type="normal" style={{'marginRight': '7px'}} onClick={e => this.saveLayout()}>save</Button>
-                <Button type="danger" style={{'marginRight': '60px'}} onClick={this.clearAll.bind(this)}>clearAll</Button>
-
-                {Object.keys(this.importedWidgets).map((k) => {
-                  return (<Button key={k} type="primary" style={{'marginRight': '7px'}} onClick={this.addElement.bind(this, k)}>{k}</Button>)
-                }
-                )}
-              </>
-            ) : ''
-          }
-        </Header>
-
         <Content style={{marginTop: 44,marginBottom: 100}}>
           <div ref={this.containerRef} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{border: '1px solid red',background: '#eee', padding: this.state.gridPadding,width:this.props.view.width, margin:'0 auto', minHeight: 800, position: 'relative'}}>
             <ResponsiveReactGridLayout
@@ -368,6 +349,24 @@ export class LadifyToolbar extends React.Component {
           />
 
         </Drawer>
+        <Header style={{position: 'fixed', zIndex: 999999, width: '100%','bottom':'0', 'padding': '0 30px'}}>
+          <span style={{'color': 'white'}}>{this.state.debug ? 'Develop' : 'Preview'}</span> 
+          <Switch style={{'marginRight': '7px'}} onChange={() =>{this.props.logic.clearAllWidgets(); this.setState({debug: !this.state.debug})}} checked={this.state.debug} />
+
+          {
+            this.state.debug ? (
+              <>
+                <Button type="normal" style={{'marginRight': '7px'}} onClick={e => this.saveLayout()}>save</Button>
+                <Button type="danger" style={{'marginRight': '60px'}} onClick={this.clearAll.bind(this)}>clearAll</Button>
+
+                {Object.keys(this.importedWidgets).map((k) => {
+                  return (<Button key={k} type="primary" style={{'marginRight': '7px'}} onClick={this.addElement.bind(this, k)}>{k}</Button>)
+                }
+                )}
+              </>
+            ) : ''
+          }
+        </Header>
       </Layout>
     )
   }
