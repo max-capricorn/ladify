@@ -51,18 +51,14 @@ importers:
     specifiers:
       '@ladify/antd4': workspace:*
       '@ladify/core': workspace:*
-      monaco-editor: ^0.30.1
     dependencies:
       '@ladify/antd4': link:../ui/antd4
       '@ladify/core': link:../core
-      monaco-editor: 0.30.1
 
   packages/core:
     specifiers:
-      '@ladify/antd4': workspace:*
       monaco-editor: ^0.30.1
     dependencies:
-      '@ladify/antd4': link:../ui/antd4
       monaco-editor: 0.30.1
 
   packages/server:

@@ -14,7 +14,6 @@
     "*.jsx"
   ],
   "dependencies": {
-    "@ladify/antd4": "workspace:*",
     "monaco-editor": "^0.30.1"
   }
 }

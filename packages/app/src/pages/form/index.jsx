@@ -28,11 +28,11 @@ export default function () {
   return (
     (
       json ? <LadifyToolbar
-          view={{width:500}}
+          view={{width:420}}
           layoutJson={json}
           logic={new logic()}
           pageId="form"
-          debug="ture">
+          debug="true">
         </LadifyToolbar>: <></>
     )
   );

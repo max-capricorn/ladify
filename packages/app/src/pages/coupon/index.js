@@ -31,7 +31,7 @@ export default function () {
           layoutJson={json}
           logic={new logic()}
           pageId="coupon"
-          debug="ture">
+          debug="true">
   </LadifyToolbar>: <></>
     )
 
