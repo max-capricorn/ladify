@@ -1,7 +1,7 @@
 import React from 'react';
 import {Layout, Button, Drawer, Switch} from 'antd';
 import {WidthProvider, Responsive} from "react-grid-layout";
-import importedWidgets from '@ladify/antd3'
+import importedWidgets from '@ladify/antd4'
 import MonacoEditor from "react-monaco-editor";
 import service from './LadifyService'
 import './Ladify.css';
