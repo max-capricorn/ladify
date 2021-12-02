@@ -20,6 +20,14 @@ export class LadifyRegistry {
 
   allWidgets = {}
   registerAll(widgets) {
+    if(! widgets instanceof Object){
+      console.error("widgets is not object");
+      return;
+    }
+    if(Object.keys(this.allWidgets).length > 0){
+      console.error("allWidgets already registed, do not overwrite!");
+      return;
+    }
     this.allWidgets = widgets;
   }
   getAllWidgets() {
