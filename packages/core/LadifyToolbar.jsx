@@ -5,6 +5,8 @@ import {LadifyRegistry}  from './LadifyRegistry'
 import MonacoEditor from "react-monaco-editor";
 import service from './LadifyService'
 import './Ladify.css';
+import produce from "immer"
+
 
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -56,7 +58,7 @@ export class LadifyToolbar extends React.Component {
 
   showDrawer = () => {this.setState({isEditorShow: true, });};
 
-  changeId =async (e, l) => {
+  changeId = (e, l) => {
     let oldi = l.i
     let newi = prompt(`change id ${oldi} to: `, l.i);
     if (!newi) return;
@@ -67,29 +69,35 @@ export class LadifyToolbar extends React.Component {
       return;
     }
 
-    l.i = newi
+    this.setState( produce( draft=>{ 
+      Object.keys(draft.layouts).forEach(k => {
+        let targetW = draft.layouts[k].filter(m => m.i === oldi)
+        if (targetW.length > 0) targetW[0].i = newi;
+      })
+      draft.widgets.filter(m=>m.i === oldi)[0].i=newi  
+    }))
 
-
-    let keys = Object.keys(this.state.layouts);
-    keys.forEach(k => {
-      let curLayout = this.state.layouts[k];
-      let targetW = curLayout.filter(m => m.i === oldi)
-      if (targetW.length > 0)
-      {
-        targetW[0].i = l.i;
-        console.log("changed....",targetW[0])
-      }
-    })
-    console.log(this.state.layouts)
-    console.log(this.state.widgets)
-
-    await this.saveLayout();
-    this.forceUpdate()
+    this.saveLayout();
   }
 
-  async saveLayout() { await service.saveLayout({layouts: this.state.layouts, widgets: this.state.widgets, maxId: this.maxId}, this.props.pageId);}
+  ////  debug ////////////////////////
+  componentDidUpdate(prevProps, prevState) {
+
+    Object.entries(this.props).forEach(([key, val]) =>
+      prevProps[key] !== val && console.log(`Prop '${key}' changed`)
+    );
+    if (this.state) {
+      Object.entries(this.state).forEach(([key, val]) =>
+        prevState[key] !== val && console.log(`State '${key}' changed`,prevState[key],val)
+      );
+    }
+  }
+  ////  debug ////////////////////////
+
+   saveLayout() {  service.saveLayout({layouts: this.state.layouts, widgets: this.state.widgets, maxId: this.maxId}, this.props.pageId);}
 
   generateDOM = () => {
+    console.log("rerender!")
     return this.state.widgets.map((l, i) => {
       if (this.importedWidgets[l.type]) {
         let h = this.importedWidgets[l.type].getCellH() || 1;
@@ -123,12 +131,6 @@ export class LadifyToolbar extends React.Component {
 
   getRelativeXY(e) {
     let {offsetLeft: l, offsetTop: t, offsetWidth: w, offsetHeight: h} = this.containerRef.current
-    // console.log(this.containerRef, l, t, w, h)
-    // var rect = e.target.getBoundingClientRect();
-    // var x = e.clientX - rect.left; //x position within the element.
-    // var y = e.clientY - rect.top;  //y position within the element.
-    // console.log("rect", rect);
-    // console.log("Left? : " + x + " ; Top? : " + y + ".");
     return {x:e.pageX - l,y:e.pageY - t}
   }
 
@@ -204,7 +206,6 @@ export class LadifyToolbar extends React.Component {
   }
 
   mouseUp(e) {
-
     this.isMouseDown=false;
 
     if(!this.isMouseMoved)
