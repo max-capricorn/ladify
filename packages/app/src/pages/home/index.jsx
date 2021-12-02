@@ -32,7 +32,7 @@ export default function () {
         layoutJson={json}
         logic={new logic()}
         pageId="home"
-        prod={true}>
+        prod={false}>
       </LadifyToolbar> : ""
     )
   );
