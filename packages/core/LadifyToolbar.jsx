@@ -306,7 +306,7 @@ export class LadifyToolbar extends React.Component {
           }
         </Header>
 
-        <Content style={{marginTop: 44}}>
+        <Content style={{marginTop: 44,marginBottom: 100}}>
           <div ref={this.containerRef} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{border: '1px solid red',background: '#eee', padding: this.state.gridPadding,width:this.props.view.width, margin:'0 auto', minHeight: 800, position: 'relative'}}>
             <ResponsiveReactGridLayout
               className="layout"

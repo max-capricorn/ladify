@@ -29,7 +29,6 @@ export default function () {
   return (
     (
       json ? <LadifyToolbar
-
         layoutJson={json}
         logic={new logic()}
         pageId="home"
