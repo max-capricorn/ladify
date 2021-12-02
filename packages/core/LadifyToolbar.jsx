@@ -1,10 +1,11 @@
 import React from 'react';
 import {Layout, Button, Drawer, Switch} from 'antd';
 import {WidthProvider, Responsive} from "react-grid-layout";
-import importedWidgets from '@ladify/antd4'
+import {LadifyRegistry}  from './LadifyRegistry'
 import MonacoEditor from "react-monaco-editor";
 import service from './LadifyService'
 import './Ladify.css';
+
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const {Header, Content} = Layout;
@@ -24,6 +25,8 @@ export class LadifyToolbar extends React.Component {
 
   constructor(props) {
     super(props);
+    this.importedWidgets = LadifyRegistry.instance().getAllWidgets()
+
     this.maxId = props?.layoutJson?.maxId || 1;
     this.containerRef = React.createRef();
     this.editor = null;
@@ -77,9 +80,9 @@ export class LadifyToolbar extends React.Component {
 
   generateDOM = () => {
     return this.state.widgets.map((l, i) => {
-      if (importedWidgets[l.type]) {
-        let h = importedWidgets[l.type].getCellH() || 1;
-        let w = importedWidgets[l.type].getCellW() || 4;
+      if (this.importedWidgets[l.type]) {
+        let h = this.importedWidgets[l.type].getCellH() || 1;
+        let w = this.importedWidgets[l.type].getCellW() || 4;
         let rdata = {logic: this.props.logic, l: l};
         return (
           <div
@@ -93,7 +96,7 @@ export class LadifyToolbar extends React.Component {
                 <span className='remove' onClick={this.onRemoveItem.bind(this, i)}>x</span>
               </>) : ""
             }
-            {React.createElement(importedWidgets[l.type], rdata)}
+            {React.createElement(this.importedWidgets[l.type], rdata)}
           </div>
         )
       }
@@ -294,7 +297,7 @@ export class LadifyToolbar extends React.Component {
                 <Button type="normal" style={{'marginRight': '7px'}} onClick={e => this.saveLayout()}>save</Button>
                 <Button type="danger" style={{'marginRight': '60px'}} onClick={this.clearAll.bind(this)}>clearAll</Button>
 
-                {Object.keys(importedWidgets).map((k) => {
+                {Object.keys(this.importedWidgets).map((k) => {
                   return (<Button key={k} type="primary" style={{'marginRight': '7px'}} onClick={this.addElement.bind(this, k)}>{k}</Button>)
                 }
                 )}
