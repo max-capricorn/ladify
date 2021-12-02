@@ -90,7 +90,7 @@ export class LadifyToolbar extends React.Component {
         let rdata = { logic: this.props.logic, l: l };
         return (
           <div
-            key={l.i} data-grid={{ x: l.x || 0, y: l.y || 99999 , h, w }}
+            key={l.i} data-grid={{ x: l.x || 0, y: l.y || 99999, h, w }}
             style={l.selected ? { 'outline': '1px dashed red' } : {}}>
             {
               this.state.debug ? (<><span className='myid'>
@@ -213,11 +213,17 @@ export class LadifyToolbar extends React.Component {
   }
 
   undo = () => {
-    let addElement = this.saveSelectionWidgets;
-    console.log(addElement);
-    this.setState({
-      widgets: [...this.state.widgets, ...addElement]
-    });
+    console.log('1234==>', this.saveSelectionWidgets)
+    if (this.saveSelectionWidgets.length == 0) {
+      console.log('没有撤销')
+    } else {
+      let addElement = this.saveSelectionWidgets;
+      console.log(addElement);
+      this.setState({
+        widgets: [...this.state.widgets, ...addElement]
+      });
+      this.saveSelectionWidgets = []
+    }
   }
 
   backspace = () => {
@@ -229,7 +235,6 @@ export class LadifyToolbar extends React.Component {
     let removeList = this.state.widgets.filter((item, index) => {
       return item.selected;
     });
-    this.saveSelectionWidgets = []
     removeList.forEach((item) => {
       layouts.forEach((item1) => {
         if (item1.i == item.i) {
