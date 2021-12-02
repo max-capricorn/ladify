@@ -15,7 +15,7 @@
                 "h": 1,
                 "x": 3,
                 "y": 9,
-                "i": "2",
+                "i": "btn:minus",
                 "moved": false,
                 "static": false
             },
@@ -24,7 +24,7 @@
                 "h": 1,
                 "x": 3,
                 "y": 7,
-                "i": "goodway",
+                "i": "btn:plus",
                 "moved": false,
                 "static": false
             },
@@ -179,7 +179,7 @@
                 "h": 1,
                 "x": 0,
                 "y": 9,
-                "i": "2",
+                "i": "btn:minus",
                 "moved": false,
                 "static": false
             },
@@ -188,7 +188,7 @@
                 "h": 1,
                 "x": 0,
                 "y": 7,
-                "i": "goodway",
+                "i": "btn:plus",
                 "moved": false,
                 "static": false
             },
@@ -324,8 +324,8 @@
                 "w": 2,
                 "h": 1,
                 "x": 0,
-                "y": 10,
-                "i": "2",
+                "y": 9,
+                "i": "btn:minus",
                 "moved": false,
                 "static": false
             },
@@ -334,7 +334,7 @@
                 "h": 1,
                 "x": 0,
                 "y": 8,
-                "i": "goodway",
+                "i": "btn:plus",
                 "moved": false,
                 "static": false
             },
@@ -351,7 +351,7 @@
                 "w": 2,
                 "h": 1,
                 "x": 0,
-                "y": 9,
+                "y": 10,
                 "i": "btn:warning",
                 "moved": false,
                 "static": false
@@ -481,11 +481,11 @@
             "type": "BtnWidget"
         },
         {
-            "i": "2",
+            "i": "btn:minus",
             "type": "BtnWidget"
         },
         {
-            "i": "goodway",
+            "i": "btn:plus",
             "type": "BtnWidget"
         },
         {

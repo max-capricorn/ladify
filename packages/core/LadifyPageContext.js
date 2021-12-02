@@ -46,6 +46,8 @@ export class LadifyPageContext {
     }
   }
 
-  handleEvent(id, type, payload) {
-  }
+  // inteface 
+  componentDidMount(id){}
+  componentDidMount(id){}
+  handleEvent(id, type, payload) {}
 }

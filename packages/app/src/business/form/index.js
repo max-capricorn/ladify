@@ -16,8 +16,17 @@ export default class FormLogic extends LadifyPageContext {
     })
   }
 
+  componentDidMount(id){
+    if(id==="btn:plus"){ this.setState(id, 'content', 'plus'); return true;}
+    if(id==="btn:minus"){ this.setState(id, 'content', 'minus'); return true;}
+  }
+
+  componentWillUnmount(id){
+  }
+
   onClick(id,type,payload){
-    if(id==="goodway"){ this.s.price++; return true;}
+    if(id==="btn:plus"){ this.s.price++; return true;}
+    if(id==="btn:minus"){ this.s.price--; return true;}
     return false;
   }
 
