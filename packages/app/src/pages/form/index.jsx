@@ -28,7 +28,7 @@ export default function () {
   return (
     (
       json ? <LadifyToolbar
-          view={{width:420}}
+          view={{width:800}}
           layoutJson={json}
           logic={new logic()}
           pageId="form"

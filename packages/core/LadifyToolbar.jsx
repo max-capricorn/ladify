@@ -109,23 +109,18 @@ export class LadifyToolbar extends React.Component {
       }
     });
   };
-  getBounds(e) {
+
+  getRelativeXY(e) {
     let {offsetLeft: l, offsetTop: t, offsetWidth: w, offsetHeight: h} = this.containerRef.current
-    console.log(this.containerRef, l, t, w, h)
-    {
-      var rect = e.target.getBoundingClientRect();
-      var x = e.clientX - rect.left; //x position within the element.
-      var y = e.clientY - rect.top;  //y position within the element.
-      console.log("rect", rect);
-      console.log("Left? : " + x + " ; Top? : " + y + ".");
-
-      var eventInContainerX = e.pageX - l;
-      var eventInContainerY = e.pageY - t;
-      console.log("mouse", eventInContainerX, eventInContainerY)
-
-    }
-
+    // console.log(this.containerRef, l, t, w, h)
+    // var rect = e.target.getBoundingClientRect();
+    // var x = e.clientX - rect.left; //x position within the element.
+    // var y = e.clientY - rect.top;  //y position within the element.
+    // console.log("rect", rect);
+    // console.log("Left? : " + x + " ; Top? : " + y + ".");
+    return {x:e.pageX - l,y:e.pageY - t}
   }
+
   markWidgets() {
     const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
     const colWidth = Math.floor(gridWitdth / this.state.cur_responsive.cols);
@@ -153,15 +148,9 @@ export class LadifyToolbar extends React.Component {
   }
 
   mouseMove(e) {
-
-    // TODO: this is test code 
-    this.getBounds(e)
-
     if (!this.state.selection.enabled) return;
     if (this.state.selection.ing) {
-      let x = e.pageX;
-      let y = e.pageY - this.containerRef.current.offsetTop;
-
+      let {x,y}=this.getRelativeXY(e)
       this.setState(
         {
           ing: true,
@@ -185,9 +174,7 @@ export class LadifyToolbar extends React.Component {
   }
   mouseDown(e) {
     if (!this.state.selection.enabled) return;
-    let x = e.pageX;
-    let y = e.pageY - this.containerRef.current.offsetTop;
-
+    let {x,y}=this.getRelativeXY(e)
     this.setState(
       {
         selection: {
