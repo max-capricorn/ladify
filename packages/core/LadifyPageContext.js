@@ -9,7 +9,7 @@ export class LadifyPageContext {
         if (c && c.getId() === w.i) {
           let b =c.getBounds();
           if (b.w !== w.w || b.h !== w.h) {
-            c.onGridBoundsChanged(w);
+            c.onCellBoundsChanged(w);
           }
         }
       })

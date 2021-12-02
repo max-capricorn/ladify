@@ -1,29 +1,25 @@
 import React from 'react';
-// import {reactive, effect } from '@vue/reactivity';
-
 export class LadifyWidget extends React.Component {
+  static getCellW(){
+    return 1;
+  }
+  static getCellH(){
+    return 1;
+  }
 
   constructor(props) {
     super(props);
     this.logic = props.logic;
     this.l = props.l;
     this.logic.addWidget(this)
-
-    // effect(()=>{
-    //   console.log("state",this.state)
-    // })
   }
-  onGridBoundsChanged(newL){
+
+  onCellBoundsChanged(newL){
     this.l = newL;
   }
+
   getBounds(){
     return this.l
-  }
-  static getCellW(){
-    return null;
-  }
-  static getCellH(){
-    return null;
   }
 
   getId() {return this.l.i};

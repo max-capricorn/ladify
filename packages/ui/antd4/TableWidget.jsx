@@ -96,6 +96,11 @@ export default class TableWidget extends LadifyWidget {
       y: 300
     }
   }
+  onCellBoundsChanged(w){
+    super.onCellBoundsChanged(w);
+    this.setState({y:w.h*50-114})
+    this.forceUpdate()
+  }
 
   onMessage(type,payload){
     super.onMessage(type,payload)

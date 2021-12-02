@@ -99,7 +99,7 @@ export class LadifyToolbar extends React.Component {
       }
       else {
         return (
-          <div key={l.i} data-grid={l}>
+          <div style={this.state.debug?{'backgroundColor': 'rgba(244,244,244,1)'}:{}} key={l.i} data-grid={l}>
             <span className='remove' onClick={this.onRemoveItem.bind(this, i)}>x</span>
           </div>
         )

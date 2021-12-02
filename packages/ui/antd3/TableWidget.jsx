@@ -96,8 +96,8 @@ export default class TableWidget extends LadifyWidget {
       y: 300
     }
   }
-  onGridBoundsChanged(w){
-    super.onGridBoundsChanged(w);
+  onCellBoundsChanged(w){
+    super.onCellBoundsChanged(w);
     this.setState({y:w.h*50-114})
     this.forceUpdate()
   }
