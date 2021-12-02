@@ -26,12 +26,14 @@ export default function () {
   }, [])
   return (
     (
-      json ? (<LadifyToolbar
+      json ? (
+        <LadifyToolbar
         layoutJson={json}
         logic={new logic()}
         pageId="order"
         debug="ture">
-      </LadifyToolbar>) : ""
+        </LadifyToolbar>
+        ) : ""
     )
   );
 }

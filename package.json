@@ -5,9 +5,8 @@
   "author": "Zk",
   "license": "MIT",
   "scripts": {
-    "dev:app": "cd ./packages/app && pnpm dev",
-    "dev:server": "cd ./packages/server && node ./server.js",
-    "publish": "pnpm publish"
+    "dev:app":"pnpm dev --filter='app'",
+    "dev:server":"pnpm dev --filter='localserver'"
   },
   "files": [
     "*.js",
