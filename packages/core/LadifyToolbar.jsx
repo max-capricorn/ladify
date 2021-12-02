@@ -132,14 +132,15 @@ export class LadifyToolbar extends React.Component {
       const widgetWidth = Math.floor(item.w * colWidth);
       const widgetHeight = item.h * this.state.grid.rowHeight;
 
+      const wcenter = {x:widgetX+widgetWidth/2,y:widgetY+widgetHeight/2}
       const {top: rt, left: rl, width: rw, height: rh} = this.state.rect
 
-      const leftFlag = rl <= widgetX;
-      const rightFlag = rl + rw >= widgetWidth + widgetX;
-      const topFlag = rt <= widgetY;
-      const bottomFlag = widgetHeight + widgetY <= rt + rh;
+      // expand the boundingbox, only need to check the center point
+      const bigBounding = {rl:rl-widgetWidth/2,rt:rt-widgetHeight/2,rw:rw+widgetWidth,rh:rh+widgetHeight}
 
-      if (leftFlag && rightFlag && topFlag && bottomFlag) {
+      const intersected = wcenter.x >= bigBounding.rl && wcenter.x <= bigBounding.rl+bigBounding.rw &&wcenter.y >=bigBounding.rt && wcenter.y <= bigBounding.rt+bigBounding.rh
+
+      if (intersected) {
         let newWidgets = this.state.widgets.map(w => {if (w.i === item.i) {w.selected = true;} return w;})
         this.setState({widgets: newWidgets})
       }
