@@ -43,6 +43,7 @@ export class LadifyWidget extends React.Component {
   }
 
   emitEvent(type, payload) {
-    this.logic.handleEvent(this.getId(), type, payload);
+    if(this.logic[type] && !this.logic[type](this.getId(), type, payload))
+      this.logic.handleEvent(this.getId(), type, payload);
   }
 }

@@ -5,22 +5,23 @@ import {reactive,effect} from '@vue/reactivity';
 export default class FormLogic extends LadifyPageContext {
   constructor(){
     super();
+    this.s = reactive({ price:12 })
 
-    this.businessData = reactive({
-      price:12,
-      name:'hello'
+    effect(()=>{
+      this.setState('title', "content", "price:"+this.s.price);
+      if(this.s.price>15)
+      this.setState('btn:warning', 'type','danger');
+      else
+      this.setState('btn:warning', 'type','default');
     })
+  }
 
-    effect(()=>{this.setState('title', "content", this.businessData.price); })
-  }
   onClick(id,type,payload){
-    if(id==="goodway"){
-      this.businessData.price++;
-    }
+    if(id==="goodway"){ this.s.price++; return true;}
+    return false;
   }
+
+
   handleEvent(id, type, payload) {
-    if (type === 'onClick') {
-      this.onClick(id, type, payload)
-    }
   }
 }

@@ -42,7 +42,7 @@
                 "h": 1,
                 "x": 3,
                 "y": 8,
-                "i": "5",
+                "i": "btn:warning",
                 "moved": false,
                 "static": false
             },
@@ -144,6 +144,24 @@
                 "i": "16",
                 "moved": false,
                 "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 21,
+                "i": "title",
+                "moved": false,
+                "static": false
+            },
+            {
+                "w": 4,
+                "h": 1,
+                "x": 0,
+                "y": 22,
+                "i": "18",
+                "moved": false,
+                "static": false
             }
         ],
         "xs": [
@@ -188,7 +206,7 @@
                 "h": 1,
                 "x": 0,
                 "y": 8,
-                "i": "5",
+                "i": "btn:warning",
                 "moved": false,
                 "static": false
             },
@@ -334,7 +352,7 @@
                 "h": 1,
                 "x": 0,
                 "y": 9,
-                "i": "5",
+                "i": "btn:warning",
                 "moved": false,
                 "static": false
             },
@@ -445,6 +463,15 @@
                 "i": "title",
                 "moved": false,
                 "static": false
+            },
+            {
+                "w": 2,
+                "h": 1,
+                "x": 0,
+                "y": 22,
+                "i": "18",
+                "moved": false,
+                "static": false
             }
         ]
     },
@@ -466,7 +493,7 @@
             "type": "VideoWidget"
         },
         {
-            "i": "5",
+            "i": "btn:warning",
             "type": "BtnWidget"
         },
         {
@@ -516,7 +543,11 @@
         {
             "i": "title",
             "type": "H1Widget"
+        },
+        {
+            "i": "18",
+            "type": "BtnWidget"
         }
     ],
-    "maxId": 18
+    "maxId": 19
 }
