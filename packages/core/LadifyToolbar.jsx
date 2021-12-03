@@ -5,13 +5,13 @@ import { LadifyRegistry } from './LadifyRegistry'
 import MonacoEditor from "react-monaco-editor";
 import service from './LadifyService'
 import './Ladify.css';
-import { isTypeNode } from 'typescript';
-import { remove } from 'lodash';
-
+import CommandMgr from "./command/CommandManager";
+import CommandDel from "./command/CommandDelete";
+import {DeleteCommand} from "./command/DeleteCommand";
+import _ from 'lodash'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const { Header, Content } = Layout;
-
 
 export class LadifyToolbar extends React.Component {
   static defaultProps = {
@@ -28,12 +28,13 @@ export class LadifyToolbar extends React.Component {
   constructor(props) {
     super(props);
     this.importedWidgets = LadifyRegistry.instance().getAllWidgets()
-
+    this.commandMgr = new CommandMgr();
+    this.commandDel = new CommandDel();
     this.maxId = props?.layoutJson?.maxId || 1;
     this.containerRef = React.createRef();
     this.editor = null;
     // 保存选中的组件
-    this.saveSelectionWidgets = []
+    this.historyWidgets = []
     this.state = {
       grid: props.grid,
       layouts: props.layoutJson.layouts,
@@ -90,7 +91,7 @@ export class LadifyToolbar extends React.Component {
         let rdata = { logic: this.props.logic, l: l };
         return (
           <div
-            key={l.i} data-grid={{ x: l.x || 0, y: l.y || 99999, h, w }}
+            key={l.i} data-grid={{ x: l.x || 0, y: l.y || 99999, h: l.h || h, w: l.w || w }}
             style={l.selected ? { 'outline': '1px dashed red' } : {}}>
             {
               this.state.debug ? (<><span className='myid'>
@@ -201,34 +202,60 @@ export class LadifyToolbar extends React.Component {
 
   // 监听键盘事件
   handleKeyDownAction = (e) => {
-    if (e.keyCode == 8) {
-      this.backspace()
-    } else {
-      var keyCode = e.keyCode || e.which || e.charCode;
-      var ctrlKey = e.ctrlKey || e.metaKey;
-      if (ctrlKey && keyCode == 90) {
-        this.undo();
-      }
-    }
-  }
+    var keyCode = e.keyCode || e.which || e.charCode;
+    var ctrlKey = e.ctrlKey || e.metaKey;
+    var shiftKey = e.shiftKey;
 
-  undo = () => {
-    console.log('1234==>', this.saveSelectionWidgets)
-    if (this.saveSelectionWidgets.length == 0) {
-      console.log('没有撤销')
-    } else {
-      let addElement = this.saveSelectionWidgets;
-      console.log(addElement);
-      this.setState({
-        widgets: [...this.state.widgets, ...addElement]
-      });
-      this.saveSelectionWidgets = []
+    // let obj = {
+    //   props: this.props,
+    //   layouts: this.state.layouts,
+    //   breakpoint: this.state.cur_responsive.breakpoint,
+    //   widgets: this.state.widgets
+    // }
+    if (keyCode == 8) { 
+      this.commandMgr.execute(new DeleteCommand(()=>{
+        let old = _.cloneDeep(this.state);
+        setTimeout(() => {
+          let layoutList = this.state.layouts[this.state.cur_responsive.breakpoint];
+          let keepList = this.state.widgets.filter((item) => {
+            return !item.selected;
+          });
+          let removeList = this.state.widgets.filter((item) => {
+            return item.selected;
+          });
+          removeList.forEach((item) => {
+            layoutList.forEach((item1) => {
+              if (item1.i == item.i) {
+                item.x = item1.x;
+                item.y = item1.y;
+                item.w = item1.w;
+                item.h = item1.h;
+                // this.deletedArr.push(item);
+                this.props.logic.removeWidget(item.i);
+              }
+            });
+          });
+          this.setState(() => ({
+            widgets: keepList,
+          }));
+        }, 0);
+        return old;
+      },(oldState)=>{
+        this.setState({
+         ...oldState
+        });
+      }));
+    
+    } else if (shiftKey && ctrlKey && keyCode == 90) {
+
+      this.commandMgr.redo();
+    } else if (ctrlKey && keyCode == 90) {
+      this.commandMgr.undo();
     }
   }
 
   backspace = () => {
     let layouts = this.state.layouts[this.state.cur_responsive.breakpoint];
-    console.log(layouts)
     let keepList = this.state.widgets.filter((item, index) => {
       return !item.selected;
     });
@@ -240,27 +267,36 @@ export class LadifyToolbar extends React.Component {
         if (item1.i == item.i) {
           item.x = item1.x
           item.y = item1.y
-          this.saveSelectionWidgets.push(item)
+          item.w = item1.w
+          item.h = item1.h
+          this.historyWidgets.push(item)
           this.props.logic.removeWidget(item.i)
         }
       })
     });
-    // for (let i = 0; i < removeElementList.length; i++) {
-    //   this.state.widgets.map((item, index) => {
-    //     if (removeElementList[i].i == item.i) {
-    //       this.state.widgets.splice(index, 1);
-    //       this.props.logic.removeWidget(item.i)
-    //       item.x = currentLayoutList[index].x
-    //       item.y = currentLayoutList[index].y
-    //       this.state.saveSelectionWidgets.push(item)
-    //     }
-    //   });
-    // }
-
     this.setState(() => ({
       widgets: keepList
     }));
   }
+
+  redo = () => {
+    console.log("redo")
+  }
+
+  undo = () => {
+    if (this.historyWidgets.length == 0) {
+      console.log('没有撤销')
+    } else {
+      let addElement = this.historyWidgets;
+      console.log(addElement)
+      this.setState({
+        widgets: [...this.state.widgets, ...addElement]
+      });
+      this.historyWidgets = []
+    }
+  }
+
+
 
   mouseUp(e) {
     if (!this.state.selection.enabled) return;
@@ -295,11 +331,21 @@ export class LadifyToolbar extends React.Component {
   };
 
   onRemoveItem(i) {
-    this.setState({
-      ... this.state,
-      widgets: this.state.widgets.filter((item, index) => index !== i)
-    });
-    this.props.logic.removeWidget(i)
+    this.commandMgr.execute(new DeleteCommand(()=>{
+      let old =_.cloneDeep(this.state);
+      this.setState({
+        ... this.state,
+        widgets: this.state.widgets.filter((item, index) => index !== i)
+      });
+      
+     
+      return old;
+    },(oldState)=>{
+      this.setState({
+        ...oldState
+      });
+    }));
+   
   }
 
   onBreakpointChange(newBreakpoint, newCols) {
