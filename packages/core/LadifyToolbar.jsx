@@ -256,7 +256,7 @@ export class LadifyToolbar extends React.Component {
 
   onLayoutChange(widgets, layouts) {
     this.props.logic.updateBounds(widgets);
-    // this.setState({layouts});
+    this.setState({layouts});
   }
 
   onDragStop() {
@@ -296,20 +296,20 @@ export class LadifyToolbar extends React.Component {
     }
 
     return (
-      <Layout onMouseUp={e => this.mouseUp(e)} onMouseMove={e => this.mouseMove(e)}>
+      <Layout onMouseUp={this.mouseUp.bind(this)} onMouseMove={this.mouseMove.bind(this)}>
         <Content style={{marginTop: 44,marginBottom: 100}}>
-          <div ref={this.containerRef} onMouseDown={e => {this.mouseDown(e)}} onMouseUp={e => {this.mouseUp(e)}} onMouseMove={e => {this.mouseMove(e)}} style={{border: !this.props.prod?'1px solid red':'',background: '#eee', padding: this.state.gridPadding,width:this.props.view.width, margin:'0 auto', minHeight: 800, position: 'relative'}}>
+          <div ref={this.containerRef} onMouseDown={this.mouseDown.bind(this)} onMouseUp={this.mouseUp.bind(this)} onMouseMove={this.mouseMove.bind(this)} style={{border: !this.props.prod?'1px solid red':'',background: '#eee', padding: this.state.gridPadding,width:this.props.view.width, margin:'0 auto', minHeight: 800, position: 'relative'}}>
             <ResponsiveReactGridLayout
               className="layout"
               {...this.state.grid}
               layouts={this.state.layouts}
               useCSSTransforms={false}
-              onDragStart={() => this.onDragStart()}
-              onDragStop={() => this.onDragStop()}
-              onResizeStart={() => this.onDragStart()}
-              onResizeStop={() => this.onDragStop()}
-              onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
-              onBreakpointChange={(newBreakpoint, newCols) => this.onBreakpointChange(newBreakpoint, newCols)}
+              onDragStart={this.onDragStart.bind(this)}
+              onDragStop={this.onDragStop.bind(this)}
+              onResizeStart={this.onDragStart.bind(this)}
+              onResizeStop={this.onDragStop.bind(this)}
+              onLayoutChange={this.onLayoutChange.bind(this)}
+              onBreakpointChange={this.onBreakpointChange.bind(this)}
               isDraggable={this.state.debug}
               isResizable={this.state.debug}
             >
@@ -367,7 +367,7 @@ export class LadifyToolbar extends React.Component {
             {
             this.state.debug ? (
             <>
-            <Button type="normal" style={{'marginRight': '7px'}} onClick={e => this.saveLayout()}>save</Button>
+            <Button type="normal" style={{'marginRight': '7px'}} onClick={this.saveLayout.bind(this)}>save</Button>
             <Button type="danger" style={{'marginRight': '60px'}} onClick={this.clearAll.bind(this)}>clearAll</Button>
 
             {Object.keys(this.importedWidgets).map((k) => {
