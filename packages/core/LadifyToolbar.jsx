@@ -27,14 +27,19 @@ export class LadifyToolbar extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log('this.props.prod',this.props.prod)
     this.importedWidgets = LadifyRegistry.instance().getAllWidgets()
 
     this.maxId = props?.layoutJson?.maxId || 1;
     this.containerRef = React.createRef();
     this.editor = null;
+    // 记录当前画面上widgets 的像素坐标
     this.cur_widgets_cords = []
+    // 记录当鼠标点击时，是否为 widget 的区域
     this.first_click_on_widget = false;
+    // 当前响应式布局
+    this.cur_responsive= {breakpoint: 'lg', cols: 12}
+    // grid 的 padding
+    this.gridPadding= 0
 
 
 
@@ -46,14 +51,10 @@ export class LadifyToolbar extends React.Component {
       debug: !this.props.prod,
       script: "",
       selection: {
-        enabled: !this.props.prod,
         ing: false,
         firstPoint: {x: 0, y: 0},
       },
       rect: {left: 0, top: 0, width: 0, height: 0},
-      cur_responsive: {breakpoint: 'lg', cols: 12},
-      // grid 的内边距
-      gridPadding: 0,
     };
 
   }
@@ -103,7 +104,6 @@ export class LadifyToolbar extends React.Component {
    saveLayout() {  service.saveLayout({layouts: this.state.layouts, widgets: this.state.widgets, maxId: this.maxId}, this.props.pageId);}
 
   generateDOM = () => {
-    console.log("rerender!")
     return this.state.widgets.map((l, i) => {
       if (this.importedWidgets[l.type]) {
         let h = this.importedWidgets[l.type].getCellH() || 1;
@@ -146,9 +146,9 @@ export class LadifyToolbar extends React.Component {
 
   markWidgets() {
     // TODO: speed up this method
-    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
-    const colWidth = Math.floor(gridWitdth / this.state.cur_responsive.cols);
-    const layoutedWidgets = this.state.layouts[this.state.cur_responsive.breakpoint];
+    const gridWitdth = this.containerRef.current.clientWidth - this.gridPadding * 2;
+    const colWidth = Math.floor(gridWitdth / this.cur_responsive.cols);
+    const layoutedWidgets = this.state.layouts[this.cur_responsive.breakpoint];
     layoutedWidgets.map((item) => {
 
       const widgetX = Math.floor(item.x * colWidth);
@@ -259,12 +259,12 @@ export class LadifyToolbar extends React.Component {
   }
 
   onBreakpointChange(newBreakpoint, newCols) {
-    this.setState({cur_responsive: {breakpoint: newBreakpoint, cols: newCols}})
+    this.cur_responsive= {breakpoint: newBreakpoint, cols: newCols}
   }
 
   cord_grid2px(cell){
-    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
-    const colWidth = gridWitdth / this.state.cur_responsive.cols;
+    const gridWitdth = this.containerRef.current.clientWidth - this.gridPadding * 2;
+    const colWidth = gridWitdth / this.cur_responsive.cols;
     const x = cell.x * colWidth;
     const y = cell.y * this.state.grid.rowHeight;
     const w = cell.w * colWidth;
@@ -273,8 +273,8 @@ export class LadifyToolbar extends React.Component {
   }
 
   cord_px2grid(item){
-    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
-    const colWidth = gridWitdth / this.state.cur_responsive.cols;
+    const gridWitdth = this.containerRef.current.clientWidth - this.gridPadding * 2;
+    const colWidth = gridWitdth / this.cur_responsive.cols;
     const x  =item.x / colWidth;
     const y = item.y / this.state.grid.rowHeight;
     const w = item.w / colWidth;
@@ -283,7 +283,7 @@ export class LadifyToolbar extends React.Component {
   }
 
   updateWidgetsCord(layouts){
-    const layoutedWidgets = layouts[this.state.cur_responsive.breakpoint];
+    const layoutedWidgets = layouts[this.cur_responsive.breakpoint];
     this.cur_widgets_cords=[]
     layoutedWidgets.map((cell) => {
       let item =this.cord_grid2px(cell)
@@ -313,7 +313,7 @@ export class LadifyToolbar extends React.Component {
     return (
       <Layout onMouseUp={this.mouseUp.bind(this)} onMouseMove={this.mouseMove.bind(this)}>
         <Content style={{marginTop: 44,marginBottom: 100}}>
-          <div ref={this.containerRef} onMouseDown={this.mouseDown.bind(this)} onMouseUp={this.mouseUp.bind(this)} onMouseMove={this.mouseMove.bind(this)} style={{border: !this.props.prod?'1px solid red':'',background: '#eee', padding: this.state.gridPadding,width:this.props.view.width, margin:'0 auto', minHeight: 800, position: 'relative'}}>
+          <div ref={this.containerRef} onMouseDown={this.mouseDown.bind(this)} onMouseUp={this.mouseUp.bind(this)} onMouseMove={this.mouseMove.bind(this)} style={{border: !this.props.prod?'1px solid red':'',background: '#eee', padding: this.gridPadding,width:this.props.view.width, margin:'0 auto', minHeight: 800, position: 'relative'}}>
             <ResponsiveReactGridLayout
               className="layout"
               {...this.state.grid}
