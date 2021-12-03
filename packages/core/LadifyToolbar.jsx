@@ -44,7 +44,6 @@ export class LadifyToolbar extends React.Component {
 
 
     this.state = {
-      grid: props.grid,
       layouts: props.layoutJson.layouts,
       widgets: props.layoutJson.widgets,
       isEditorShow: false,
@@ -152,9 +151,9 @@ export class LadifyToolbar extends React.Component {
     layoutedWidgets.map((item) => {
 
       const widgetX = Math.floor(item.x * colWidth);
-      const widgetY = item.y * this.state.grid.rowHeight;
+      const widgetY = item.y * this.props.grid.rowHeight;
       const widgetWidth = Math.floor(item.w * colWidth);
-      const widgetHeight = item.h * this.state.grid.rowHeight;
+      const widgetHeight = item.h * this.props.grid.rowHeight;
 
       const wcenter = {x:widgetX+widgetWidth/2,y:widgetY+widgetHeight/2}
       const {top: y, left: x, width: w, height: h} = this.state.rect
@@ -266,9 +265,9 @@ export class LadifyToolbar extends React.Component {
     const gridWitdth = this.containerRef.current.clientWidth - this.gridPadding * 2;
     const colWidth = gridWitdth / this.cur_responsive.cols;
     const x = cell.x * colWidth;
-    const y = cell.y * this.state.grid.rowHeight;
+    const y = cell.y * this.props.grid.rowHeight;
     const w = cell.w * colWidth;
-    const h = cell.h * this.state.grid.rowHeight;
+    const h = cell.h * this.props.grid.rowHeight;
     return {x,y,w,h};
   }
 
@@ -276,9 +275,9 @@ export class LadifyToolbar extends React.Component {
     const gridWitdth = this.containerRef.current.clientWidth - this.gridPadding * 2;
     const colWidth = gridWitdth / this.cur_responsive.cols;
     const x  =item.x / colWidth;
-    const y = item.y / this.state.grid.rowHeight;
+    const y = item.y / this.props.grid.rowHeight;
     const w = item.w / colWidth;
-    const h = item.h / this.state.grid.rowHeight;
+    const h = item.h / this.props.grid.rowHeight;
     return {x,y,w,h};
   }
 
@@ -316,7 +315,7 @@ export class LadifyToolbar extends React.Component {
           <div ref={this.containerRef} onMouseDown={this.mouseDown.bind(this)} onMouseUp={this.mouseUp.bind(this)} onMouseMove={this.mouseMove.bind(this)} style={{border: !this.props.prod?'1px solid red':'',background: '#eee', padding: this.gridPadding,width:this.props.view.width, margin:'0 auto', minHeight: 800, position: 'relative'}}>
             <ResponsiveReactGridLayout
               className="layout"
-              {...this.state.grid}
+              {...this.props.grid}
               layouts={this.state.layouts}
               useCSSTransforms={false}
               onLayoutChange={this.onLayoutChange.bind(this)}
