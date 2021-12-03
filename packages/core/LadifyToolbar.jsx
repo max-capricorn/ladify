@@ -298,36 +298,7 @@ export class LadifyToolbar extends React.Component {
 
   }
 
-  // onDragStop() {
-  //   // unsync
-  //   this.setState(
-  //     {
-  //       selection: {
-  //         ... this.state.selection,
-  //         enabled: true,
-  //         ing: false
-  //       }
-  //     }
-  //   )
-  // }
-  // onDragStart() {
-  //   // make setState sync
-  //   setTimeout(() => {
-  //     this.setState(
-  //       {
-  //         selection: {
-  //           ... this.state.selection,
-  //           enabled: false,
-  //           ing: false
-  //         }
-  //       }
-  //     )
-  //
-  //   }, 0)
-  // }
-
   render() {
-
     const editorDidMount = async (editor, monoco) => {
       this.editor = editor;
       let code = await service.getcode(this.props.pageId)
@@ -348,10 +319,6 @@ export class LadifyToolbar extends React.Component {
               {...this.state.grid}
               layouts={this.state.layouts}
               useCSSTransforms={false}
-              // onDragStart={this.onDragStart.bind(this)}
-              // onDragStop={this.onDragStop.bind(this)}
-              // onResizeStart={this.onDragStart.bind(this)}
-              // onResizeStop={this.onDragStop.bind(this)}
               onLayoutChange={this.onLayoutChange.bind(this)}
               onBreakpointChange={this.onBreakpointChange.bind(this)}
               isDraggable={this.state.debug}
