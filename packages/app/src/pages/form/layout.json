@@ -132,7 +132,7 @@
                 "h": 1,
                 "x": 0,
                 "y": 15,
-                "i": "adf",
+                "i": "hello world",
                 "moved": false,
                 "static": false
             },
@@ -296,7 +296,7 @@
                 "h": 1,
                 "x": 0,
                 "y": 19,
-                "i": "adf",
+                "i": "hello world",
                 "moved": false,
                 "static": false
             },
@@ -442,7 +442,7 @@
                 "h": 1,
                 "x": 0,
                 "y": 16,
-                "i": "adf",
+                "i": "hello world",
                 "moved": false,
                 "static": false
             },
@@ -497,27 +497,7 @@
             "type": "BtnWidget"
         },
         {
-            "i": "6",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "abc",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "8",
-            "type": "BtnWidget"
-        },
-        {
             "i": "sdfsdfsd",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "10",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "123333",
             "type": "BtnWidget"
         },
         {
@@ -525,28 +505,8 @@
             "type": "BtnWidget"
         },
         {
-            "i": "sdfsdf",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "sdfascccc",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "adf",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "16",
-            "type": "BtnWidget"
-        },
-        {
             "i": "title",
             "type": "H1Widget"
-        },
-        {
-            "i": "ddd",
-            "type": "BtnWidget"
         }
     ],
     "maxId": 19

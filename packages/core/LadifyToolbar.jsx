@@ -32,9 +32,11 @@ export class LadifyToolbar extends React.Component {
 
     this.maxId = props?.layoutJson?.maxId || 1;
     this.containerRef = React.createRef();
-    this.isMouseDown = false;
-    this.isMouseMoved = false;
     this.editor = null;
+    this.cur_widgets_cords = []
+    this.first_click_on_widget = false;
+
+
 
     this.state = {
       grid: props.grid,
@@ -53,6 +55,10 @@ export class LadifyToolbar extends React.Component {
       // grid 的内边距
       gridPadding: 0,
     };
+
+  }
+  componentDidMount(){
+    this.updateWidgetsCord(this.state.layouts)
   }
   clearAll() {this.maxId = 1; this.setState({layouts: {}, widgets: []})}
 
@@ -105,15 +111,15 @@ export class LadifyToolbar extends React.Component {
         let rdata = {logic: this.props.logic, l: l};
         return (
           <div
-            key={l.i} data-grid={{x: 0, y: 9999, h, w}}
+            key={l.i}  data-grid={{x: 0, y: 9999, h, w}}
             style={l.selected ? {'outline': '1px dashed red'} : {}}>
             {
-              this.state.debug ? (<><span className='myid'>
+              this.state.debug ? (<div><span className='myid'>
                 <Button onClick={e => this.changeId(e, l)} style={{'height': '20px'}}>{l.i}</Button>
               </span>
                 <span className='script' onClick={this.showDrawer}>e</span>
                 <span className='remove' onClick={this.onRemoveItem.bind(this, i)}>x</span>
-              </>) : ""
+              </div>) : ""
             }
             {React.createElement(this.importedWidgets[l.type], rdata)}
           </div>
@@ -133,6 +139,10 @@ export class LadifyToolbar extends React.Component {
     let {offsetLeft: l, offsetTop: t, offsetWidth: w, offsetHeight: h} = this.containerRef.current
     return {x:e.pageX - l,y:e.pageY - t}
   }
+// check if point in boundingbox 
+  isPointInBB(p,bb){
+      return  p.x >= bb.x && p.x <= bb.x+bb.w &&p.y >=bb.y && p.y <= bb.y+bb.h
+  }
 
   markWidgets() {
     // TODO: speed up this method
@@ -147,14 +157,11 @@ export class LadifyToolbar extends React.Component {
       const widgetHeight = item.h * this.state.grid.rowHeight;
 
       const wcenter = {x:widgetX+widgetWidth/2,y:widgetY+widgetHeight/2}
-      const {top: rt, left: rl, width: rw, height: rh} = this.state.rect
+      const {top: y, left: x, width: w, height: h} = this.state.rect
 
       // expand the boundingbox, only need to check the center point
-      const bigBounding = {rl:rl-widgetWidth/2,rt:rt-widgetHeight/2,rw:rw+widgetWidth,rh:rh+widgetHeight}
-
-      const intersected = wcenter.x >= bigBounding.rl && wcenter.x <= bigBounding.rl+bigBounding.rw &&wcenter.y >=bigBounding.rt && wcenter.y <= bigBounding.rt+bigBounding.rh
-
-      if (intersected) {
+      const bigBounding = {x:x-widgetWidth/2,y:y-widgetHeight/2,w:w+widgetWidth,h:h+widgetHeight}
+      if (this.isPointInBB(wcenter, bigBounding)) {
         let newWidgets = this.state.widgets.map(w => {if (w.i === item.i) {w.selected = true;} return w;})
         this.setState({widgets: newWidgets})
       }
@@ -163,8 +170,7 @@ export class LadifyToolbar extends React.Component {
   }
 
   mouseMove(e) {
-    this.isMouseMoved=true;
-    if (!this.state.selection.enabled) return;
+    if(this.first_click_on_widget)return;
     if (this.state.selection.ing) {
       let {x,y}=this.getRelativeXY(e)
       this.setState(
@@ -189,9 +195,16 @@ export class LadifyToolbar extends React.Component {
     }
   }
   mouseDown(e) {
-    this.isMouseDown=true;
-    this.isMouseMoved=false;
-    if (!this.state.selection.enabled) return;
+
+    // check if mouse on widgets
+    let p =this.getRelativeXY(e)
+    let results = this.cur_widgets_cords.filter(w =>{ return  this.isPointInBB(p, w)  })
+    if(results.length>0){
+      this.first_click_on_widget=true;
+      return;
+    }
+    this.first_click_on_widget=false;
+
     let {x,y}=this.getRelativeXY(e)
     this.setState(
       {
@@ -206,12 +219,7 @@ export class LadifyToolbar extends React.Component {
   }
 
   mouseUp(e) {
-    this.isMouseDown=false;
-
-    if(!this.isMouseMoved)
-      this.setState({widgets: this.state.widgets.map(w => {w.selected = false; return w;})})
-
-    if (!this.state.selection.enabled) return;
+    if(this.first_click_on_widget)return;
     this.setState(
       {
         selection: {
@@ -254,38 +262,69 @@ export class LadifyToolbar extends React.Component {
     this.setState({cur_responsive: {breakpoint: newBreakpoint, cols: newCols}})
   }
 
+  cord_grid2px(cell){
+    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
+    const colWidth = gridWitdth / this.state.cur_responsive.cols;
+    const x = cell.x * colWidth;
+    const y = cell.y * this.state.grid.rowHeight;
+    const w = cell.w * colWidth;
+    const h = cell.h * this.state.grid.rowHeight;
+    return {x,y,w,h};
+  }
+
+  cord_px2grid(item){
+    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
+    const colWidth = gridWitdth / this.state.cur_responsive.cols;
+    const x  =item.x / colWidth;
+    const y = item.y / this.state.grid.rowHeight;
+    const w = item.w / colWidth;
+    const h = item.h / this.state.grid.rowHeight;
+    return {x,y,w,h};
+  }
+
+  updateWidgetsCord(layouts){
+    const layoutedWidgets = layouts[this.state.cur_responsive.breakpoint];
+    this.cur_widgets_cords=[]
+    layoutedWidgets.map((cell) => {
+      let item =this.cord_grid2px(cell)
+      this.cur_widgets_cords.push({...item,i:cell.i});
+    });
+  }
   onLayoutChange(widgets, layouts) {
     this.props.logic.updateBounds(widgets);
-    this.setState({layouts});
+    this.setState({layouts},()=>{
+      this.updateWidgetsCord(this.state.layouts);
+    });
+
   }
 
-  onDragStop() {
-    // unsync
-    this.setState(
-      {
-        selection: {
-          ... this.state.selection,
-          enabled: true,
-          ing: false
-        }
-      }
-    )
-  }
-  onDragStart() {
-    // make setState sync 
-    setTimeout(() => {
-      this.setState(
-        {
-          selection: {
-            ... this.state.selection,
-            enabled: false,
-            ing: false
-          }
-        }
-      )
-
-    }, 0)
-  }
+  // onDragStop() {
+  //   // unsync
+  //   this.setState(
+  //     {
+  //       selection: {
+  //         ... this.state.selection,
+  //         enabled: true,
+  //         ing: false
+  //       }
+  //     }
+  //   )
+  // }
+  // onDragStart() {
+  //   // make setState sync
+  //   setTimeout(() => {
+  //     this.setState(
+  //       {
+  //         selection: {
+  //           ... this.state.selection,
+  //           enabled: false,
+  //           ing: false
+  //         }
+  //       }
+  //     )
+  //
+  //   }, 0)
+  // }
 
   render() {
 
@@ -293,6 +332,11 @@ export class LadifyToolbar extends React.Component {
       this.editor = editor;
       let code = await service.getcode(this.props.pageId)
       editor.setValue(code)
+    }
+
+    const toggglePreview = ()=>{
+      // this.props.logic.clearAllWidgets();
+      this.setState({debug: !this.state.debug})
     }
 
     return (
@@ -304,10 +348,10 @@ export class LadifyToolbar extends React.Component {
               {...this.state.grid}
               layouts={this.state.layouts}
               useCSSTransforms={false}
-              onDragStart={this.onDragStart.bind(this)}
-              onDragStop={this.onDragStop.bind(this)}
-              onResizeStart={this.onDragStart.bind(this)}
-              onResizeStop={this.onDragStop.bind(this)}
+              // onDragStart={this.onDragStart.bind(this)}
+              // onDragStop={this.onDragStop.bind(this)}
+              // onResizeStart={this.onDragStart.bind(this)}
+              // onResizeStop={this.onDragStop.bind(this)}
               onLayoutChange={this.onLayoutChange.bind(this)}
               onBreakpointChange={this.onBreakpointChange.bind(this)}
               isDraggable={this.state.debug}
@@ -362,7 +406,7 @@ export class LadifyToolbar extends React.Component {
         {
           !this.props.prod ?( <Header style={{position: 'fixed', zIndex: 999999, width: '100%','bottom':'0', 'padding': '0 30px'}}>
             <span style={{'color': 'white'}}>{this.state.debug ? 'Develop' : 'Preview'}</span> 
-            <Switch style={{'marginRight': '7px'}} onChange={() =>{this.props.logic.clearAllWidgets(); this.setState({debug: !this.state.debug})}} checked={this.state.debug} />
+            <Switch style={{'marginRight': '7px'}} onChange={toggglePreview} checked={this.state.debug} />
 
             {
             this.state.debug ? (
