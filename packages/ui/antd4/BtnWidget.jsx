@@ -4,6 +4,9 @@ import {LadifyWidget} from '@ladify/core'
 
 
 export default class BtnWidget extends LadifyWidget {
+  static getWidgetType() {
+    return "Btn";
+  }
   static getCellW() {
     return 4;
   }

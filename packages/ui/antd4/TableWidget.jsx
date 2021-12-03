@@ -82,6 +82,9 @@ for (let i = 0; i < 3; i++) {
 }
 
 export default class TableWidget extends LadifyWidget {
+  static getWidgetType() {
+    return "Table"
+  }
   static getCellW(){
     return 4;
   }

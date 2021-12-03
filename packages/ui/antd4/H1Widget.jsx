@@ -5,7 +5,7 @@ import {LadifyWidget} from '@ladify/core'
 
 export default class H1Widget extends LadifyWidget {
 
-  static getType(){
+  static getWidgetType() {
     return "h1"
   }
   static getCellW() {

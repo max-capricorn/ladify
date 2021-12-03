@@ -381,7 +381,7 @@ export class LadifyToolbar extends React.Component {
             <Button type="danger" style={{'marginRight': '60px'}} onClick={this.clearAll.bind(this)}>clearAll</Button>
 
             {Object.keys(this.importedWidgets).map((k) => {
-            return (<Button key={k} type="primary" style={{'marginRight': '7px'}} onClick={this.addElement.bind(this, k)}>{k}</Button>)
+            return (<Button key={k} type="primary" style={{'marginRight': '7px'}} onClick={this.addElement.bind(this, k)}>{this.importedWidgets[k].getWidgetType()}</Button>)
             }
             )}
         </>

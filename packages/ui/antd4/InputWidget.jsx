@@ -3,6 +3,9 @@ import {Input} from 'antd';
 import {LadifyWidget} from '@ladify/core'
 
 export default class InputWidget extends LadifyWidget {
+  static getWidgetType() {
+    return "Input"
+  }
   static getCellW() {
     return 4;
   }

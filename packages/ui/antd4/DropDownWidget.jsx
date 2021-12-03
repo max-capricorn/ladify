@@ -4,8 +4,8 @@ import {HomeOutlined} from '@ant-design/icons'
 import {LadifyWidget} from '@ladify/core'
 
 export default class DropDownWidget extends LadifyWidget {
-  static getType() {
-    return "dropdown"
+  static getWidgetType() {
+    return "DropDown"
   }
   static getCellW() {
     return 1;

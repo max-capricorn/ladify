@@ -3,8 +3,8 @@ import {LadifyWidget} from '@ladify/core'
 
 
 export default class HelloWidget extends LadifyWidget {
-  static getType(){
-    return "button"
+  static getWidgetType() {
+    return "Hello"
   }
   static getCellW() {
     return 4;

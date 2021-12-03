@@ -1,5 +1,8 @@
 import React from 'react';
 export class LadifyWidget extends React.Component {
+  static getName(){
+    return "";
+  }
   static getCellW(){
     return 1;
   }
