@@ -50,6 +50,26 @@ app.get('/getLayout', function (req, res) {
   res.end(contentText);
 })
 
+// app.post('/saveFloorLayout', function (req, res) {
+//   let pid = req.query.pageId;
+//   let rpath = `${appBase}/pages/${pid}/floorLayout.json`;
+//   fse.outputFile(rpath, JSON.stringify(req.body, null, 4), (err) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       console.log(`写入:${rpath}`);
+//     }
+//   });
+//   res.end("ok");
+// })
+
+// app.get('/getFloorLayout', function (req, res) {
+//   let pid = req.query.pageId;
+//   let rpath = `${appBase}/pages/${pid}/floorLayout.json`;
+//   let contentText = fs.readFileSync(rpath)
+//   res.end(contentText);
+// })
+
 var server = app.listen(8081, function () {
 
   var host = server.address().address

@@ -37,10 +37,10 @@ export default class LadifyService {
   }
   static async  saveLayout(layoutJson, pageId){
     // 过滤没用到的旧数据
-    layoutJson.widgets = layoutJson.widgets.map(w=>{return {
-      i:w.i,
-      type: w.type
-    }});
+    // layoutJson.widgets = layoutJson.widgets.map(w=>{return {
+    //   i:w.i,
+    //   type: w.type
+    // }});
     let url = 'http://localhost:8081/saveLayout?pageId=' + pageId;
     try {
       await fetch(url, {

@@ -20,7 +20,6 @@ export default function () {
       } catch (e) {
         console.log(e)
       }
-
     }
     getcode();
   }, [])

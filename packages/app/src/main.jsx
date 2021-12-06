@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import importedWidgets from '@ladify/antd4'
 import {LadifyRegistry} from '@ladify/core'
+console.log('importedWidgets: ', importedWidgets);
 LadifyRegistry.instance().registerAll(importedWidgets)
 
 import App from './App'
