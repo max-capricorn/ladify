@@ -534,6 +534,125 @@
                         "i": "50",
                         "moved": false,
                         "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 0,
+                        "y": 8,
+                        "i": "51",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 1,
+                        "h": 1,
+                        "x": 1,
+                        "y": 4,
+                        "i": "52",
+                        "moved": false,
+                        "static": false
+                    }
+                ],
+                "xs": [
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 0,
+                        "y": 1,
+                        "i": "1",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 1,
+                        "h": 1,
+                        "x": 0,
+                        "y": 2,
+                        "i": "2",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 0,
+                        "y": 7,
+                        "i": "3",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 0,
+                        "y": 0,
+                        "i": "4",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 0,
+                        "y": 8,
+                        "i": "45",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 0,
+                        "y": 3,
+                        "i": "46",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 0,
+                        "y": 4,
+                        "i": "47",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 1,
+                        "h": 1,
+                        "x": 1,
+                        "y": 5,
+                        "i": "48",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 0,
+                        "y": 6,
+                        "i": "49",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 5,
+                        "x": 0,
+                        "y": 9,
+                        "i": "50",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 0,
+                        "y": 14,
+                        "i": "51",
+                        "moved": false,
+                        "static": false
                     }
                 ]
             },
@@ -587,9 +706,19 @@
                     "selected": true,
                     "i": "50",
                     "type": "VideoWidget"
+                },
+                {
+                    "selected": true,
+                    "i": "51",
+                    "type": "BtnWidget"
+                },
+                {
+                    "selected": true,
+                    "i": "52",
+                    "type": "DropDownWidget"
                 }
             ]
         }
     ],
-    "maxId": 50
+    "maxId": 52
 }

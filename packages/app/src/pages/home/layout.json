@@ -5,7 +5,7 @@
                 "w": 4,
                 "h": 1,
                 "x": 4,
-                "y": 20,
+                "y": 11,
                 "i": "btn:cancel",
                 "moved": false,
                 "static": false
@@ -57,7 +57,7 @@
             },
             {
                 "w": 12,
-                "h": 18,
+                "h": 9,
                 "x": 0,
                 "y": 2,
                 "i": "table:main",
@@ -77,35 +77,8 @@
                 "w": 4,
                 "h": 1,
                 "x": 8,
-                "y": 20,
+                "y": 11,
                 "i": "btn:ok",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 12,
-                "h": 12,
-                "x": 0,
-                "y": 21,
-                "i": "14",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 1,
-                "h": 1,
-                "x": 0,
-                "y": 33,
-                "i": "15",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 4,
-                "h": 1,
-                "x": 3,
-                "y": 33,
-                "i": "16",
                 "moved": false,
                 "static": false
             },
@@ -115,24 +88,6 @@
                 "x": 8,
                 "y": 0,
                 "i": "btn:search",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 4,
-                "h": 1,
-                "x": 0,
-                "y": 34,
-                "i": "18",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 4,
-                "h": 1,
-                "x": 0,
-                "y": 35,
-                "i": "19",
                 "moved": false,
                 "static": false
             }
@@ -176,29 +131,21 @@
             "type": "BtnWidget"
         },
         {
-            "i": "14",
-            "type": "TableWidget"
-        },
-        {
-            "i": "15",
-            "type": "DropDownWidget"
-        },
-        {
-            "i": "16",
-            "type": "BlankWidget"
-        },
-        {
             "i": "btn:search",
             "type": "BtnWidget"
         },
         {
-            "i": "18",
+            "i": "20",
             "type": "BtnWidget"
         },
         {
-            "i": "19",
+            "i": "haha",
+            "type": "BtnWidget"
+        },
+        {
+            "i": "67777777",
             "type": "BtnWidget"
         }
     ],
-    "maxId": 20
+    "maxId": 23
 }

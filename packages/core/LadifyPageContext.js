@@ -46,7 +46,8 @@ export class LadifyPageContext {
     }
   }
 
-  handleEvent(id, type, payload) {
-    throw new Error("逻辑类未实现。应该由逻辑类自行实现")
-  }
+  // inteface 
+  componentDidMount(id){}
+  componentDidMount(id){}
+  handleEvent(id, type, payload) {}
 }

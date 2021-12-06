@@ -8,6 +8,7 @@
     "server": "node ./server.js"
   },
   "dependencies": {
+    "@vue/reactivity": "^3.2.23",
     "@ladify/core": "workspace:*",
     "@ladify/antd4": "workspace:*"
   }

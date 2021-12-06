@@ -1,10 +1,12 @@
+
 import React from 'react';
 import {LadifyWidget} from '@ladify/core'
 
 
-export default class HelloWidget extends LadifyWidget {
+export default class H1Widget extends LadifyWidget {
+
   static getWidgetType() {
-    return "Hello"
+    return "h1"
   }
   static getCellW() {
     return 4;
@@ -16,10 +18,10 @@ export default class HelloWidget extends LadifyWidget {
   constructor(props) {
     super(props)
     this.state = {
-      content: ""
+      content: "h1"
     };
   }
   render() {
-    return <input  onChange={e => {this.setState({content:e.target.value}); this.emitEvent('onChange', e)}} style={{'width': '100%', 'height': '100%'}} />
+    return <h1>{this.state.content}</h1>
   }
 }

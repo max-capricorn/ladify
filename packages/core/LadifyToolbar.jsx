@@ -7,6 +7,9 @@ import service from './LadifyService'
 import './Ladify.css';
 import { RightSquareOutlined } from '@ant-design/icons'
 import NextLayer from './NextLayer'
+import produce from "immer"
+
+
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const { Header, Content } = Layout;
@@ -29,21 +32,25 @@ export class LadifyToolbar extends React.Component {
     this.importedWidgets = LadifyRegistry.instance().getAllWidgets()
     this.maxId = props?.layoutJson?.maxId || 1;
     this.containerRef = React.createRef();
-    this.isMouseDown = false;
-    this.isMouseMoved = false;
     this.editor = null;
-    this.nextStartMaxId = 0;
-
+    this.cur_widgets_cords = []
+    // 记录当鼠标点击时，是否为 widget 的区域
+    this.first_click_on_widget = false;
+    // 当前响应式布局
+    this.cur_responsive = { breakpoint: 'lg', cols: 12 }
+    // grid 的 padding
+    this.gridPadding = 0
     this.state = {
       grid: props.grid,
       layouts: props.layoutJson.layers[0].layouts || {},
       layers: props.layoutJson.layers,
       widgets: props.layoutJson.layers[0].widgets || [],
+      // 记录当前画面上widgets 的像素坐标
+
       isEditorShow: false,
-      debug: true,
+      debug: !this.props.prod,
       script: "",
       selection: {
-        enabled: true,
         ing: false,
         firstPoint: { x: 0, y: 0 },
       },
@@ -53,21 +60,27 @@ export class LadifyToolbar extends React.Component {
       gridPadding: 0,
       layerLevel: 0,
     };
+
   }
+
+  componentDidMount () {
+    this.updateWidgetsCord(this.state.layouts)
+  }
+
   clearAll () {
-    const {layers, layerLevel} = this.state
+    const { layers, layerLevel } = this.state
     layerLevel ? (this.maxId = this.nextStartMaxId) : 1;
     layers[layerLevel].widgets = [];
     layers[layerLevel].layouts = {};
     this.setState({
-      ...layers  
+      ...layers
     })
   }
 
   showDrawer = () => { this.setState({ isEditorShow: true, }); };
 
   changeId = (e, l) => {
-    const {layers, layerLevel} = this.state
+    const { layers, layerLevel } = this.state
     let oldi = l.i
     let newi = prompt(`change id ${oldi} to: `, l.i);
     if (!newi) return;
@@ -77,17 +90,26 @@ export class LadifyToolbar extends React.Component {
       alert('重复的 id ' + newi + " ，重试");
       return;
     }
-    l.i = newi
-    const layouts = layers[layerLevel].layouts
-    let keys = Object.keys(layouts);
-    keys.forEach(k => {
-      let curLayout = layouts[k];
-      let targetW = curLayout.filter(m => m.i === oldi)
-      if (targetW.length > 0)
-        targetW[0].i = l.i;
-    })
+    // l.i = newi
+    // const layouts = layers[layerLevel].layouts
+    // let keys = Object.keys(layouts);
+    // keys.forEach(k => {
+    //   let curLayout = layouts[k];
+    //   let targetW = curLayout.filter(m => m.i === oldi)
+    //   if (targetW.length > 0)
+    //     targetW[0].i = l.i;
+    // })
+
+    this.setState(produce(({ layers, layerLevel }) => {
+      Object.keys(layers[layerLevel].layouts).forEach(k => {
+        let targetW = layers[layerLevel].layouts[k].filter(m => m.i === oldi)
+        if (targetW.length > 0) targetW[0].i = newi;
+      })
+      layers[layerLevel].widgets.filter(m => m.i === oldi)[0].i = newi
+      return [...layers]
+    }))
+
     this.saveLayout();
-    this.forceUpdate()
   }
 
   saveLayout () {
@@ -103,12 +125,27 @@ export class LadifyToolbar extends React.Component {
       // nextWidgets: this.state.nextWidgets
     }, this.props.pageId);
   }
+  ////  debug ////////////////////////
+  componentDidUpdate (prevProps, prevState) {
+
+    Object.entries(this.props).forEach(([key, val]) =>
+      prevProps[key] !== val && console.log(`Prop '${key}' changed`)
+    );
+    if (this.state) {
+      Object.entries(this.state).forEach(([key, val]) =>
+        prevState[key] !== val && console.log(`State '${key}' changed`, prevState[key], val)
+      );
+    }
+  }
+  ////  debug ////////////////////////
+
+  //  saveLayout() {  service.saveLayout({layouts: this.state.layouts, widgets: this.state.widgets, maxId: this.maxId}, this.props.pageId);}
 
   generateDOM = () => {
     const { layers, layerLevel } = this.state
     const widgets = layers[0].widgets
     console.log('widgets: ', widgets);
-    
+
     return widgets && widgets.map((l, i) => {
       if (this.importedWidgets[l.type]) {
         let h = this.importedWidgets[l.type].getCellH() || 1;
@@ -142,52 +179,40 @@ export class LadifyToolbar extends React.Component {
 
   getRelativeXY (e) {
     let { offsetLeft: l, offsetTop: t, offsetWidth: w, offsetHeight: h } = this.containerRef.current
-    // console.log(this.containerRef, l, t, w, h)
-    // var rect = e.target.getBoundingClientRect();
-    // var x = e.clientX - rect.left; //x position within the element.
-    // var y = e.clientY - rect.top;  //y position within the element.
-    // console.log("rect", rect);
-    // console.log("Left? : " + x + " ; Top? : " + y + ".");
     return { x: e.pageX - l, y: e.pageY - t }
+  }
+  // check if point in boundingbox 
+  isPointInBB (p, bb) {
+    return p.x >= bb.x && p.x <= bb.x + bb.w && p.y >= bb.y && p.y <= bb.y + bb.h
   }
 
   markWidgets () {
-    const { layers, layerLevel } = this.state
-    const layouts = layers[layerLevel].layouts
-    const widgets = layers[layerLevel].widgets
-    const gridWitdth = this.containerRef.current.clientWidth - this.state.gridPadding * 2;
-    const colWidth = Math.floor(gridWitdth / this.state.cur_responsive.cols);
-    const layoutedWidgets = layouts[this.state.cur_responsive.breakpoint];
+    // TODO: speed up this method
+    const gridWitdth = this.containerRef.current.clientWidth - this.gridPadding * 2;
+    const colWidth = Math.floor(gridWitdth / this.cur_responsive.cols);
+    const layoutedWidgets = this.state.layouts[this.cur_responsive.breakpoint];
     layoutedWidgets.map((item) => {
 
       const widgetX = Math.floor(item.x * colWidth);
-      const widgetY = item.y * this.state.grid.rowHeight;
+      const widgetY = item.y * this.props.grid.rowHeight;
       const widgetWidth = Math.floor(item.w * colWidth);
-      const widgetHeight = item.h * this.state.grid.rowHeight;
+      const widgetHeight = item.h * this.props.grid.rowHeight;
 
       const wcenter = { x: widgetX + widgetWidth / 2, y: widgetY + widgetHeight / 2 }
-      const { top: rt, left: rl, width: rw, height: rh } = this.state.rect
+      const { top: y, left: x, width: w, height: h } = this.state.rect
 
       // expand the boundingbox, only need to check the center point
-      const bigBounding = { rl: rl - widgetWidth / 2, rt: rt - widgetHeight / 2, rw: rw + widgetWidth, rh: rh + widgetHeight }
-
-      const intersected = wcenter.x >= bigBounding.rl && wcenter.x <= bigBounding.rl + bigBounding.rw && wcenter.y >= bigBounding.rt && wcenter.y <= bigBounding.rt + bigBounding.rh
-
-      if (intersected) {
+      const bigBounding = { x: x - widgetWidth / 2, y: y - widgetHeight / 2, w: w + widgetWidth, h: h + widgetHeight }
+      if (this.isPointInBB(wcenter, bigBounding)) {
         let newWidgets = this.state.widgets.map(w => { if (w.i === item.i) { w.selected = true; } return w; })
-        layers[layerLevel].widgets = newWidgets
-        this.setState([...layers])
+        this.setState({ widgets: newWidgets })
       }
 
     });
   }
 
   mouseMove (e) {
-    const { layers, layerLevel } = this.state
-    const layouts = layers[layerLevel].layouts
-    const widgets = layers[layerLevel].widgets
-    this.isMouseMoved = true;
-    if (!this.state.selection.enabled) return;
+    if (this.first_click_on_widget) return;
     if (this.state.selection.ing) {
       let { x, y } = this.getRelativeXY(e)
       this.setState(
@@ -212,11 +237,17 @@ export class LadifyToolbar extends React.Component {
 
     }
   }
-
   mouseDown (e) {
-    this.isMouseDown = true;
-    this.isMouseMoved = false;
-    if (!this.state.selection.enabled) return;
+
+    // check if mouse on widgets
+    let p = this.getRelativeXY(e)
+    let results = this.cur_widgets_cords.filter(w => { return this.isPointInBB(p, w) })
+    if (results.length > 0) {
+      this.first_click_on_widget = true;
+      return;
+    }
+    this.first_click_on_widget = false;
+
     let { x, y } = this.getRelativeXY(e)
     this.setState(
       {
@@ -231,12 +262,7 @@ export class LadifyToolbar extends React.Component {
   }
 
   mouseUp (e) {
-    this.isMouseDown = false;
-
-    if (!this.isMouseMoved)
-      this.setState({ widgets: this.state.widgets.map(w => { w.selected = false; return w; }) })
-
-    if (!this.state.selection.enabled) return;
+    if (this.first_click_on_widget) return;
     this.setState(
       {
         selection: {
@@ -316,8 +342,45 @@ export class LadifyToolbar extends React.Component {
           }
         }
       )
+    })
+  }
+  onBreakpointChange (newBreakpoint, newCols) {
+    this.cur_responsive = { breakpoint: newBreakpoint, cols: newCols }
+  }
 
-    }, 0)
+  cord_grid2px (cell) {
+    const gridWitdth = this.containerRef.current.clientWidth - this.gridPadding * 2;
+    const colWidth = gridWitdth / this.cur_responsive.cols;
+    const x = cell.x * colWidth;
+    const y = cell.y * this.props.grid.rowHeight;
+    const w = cell.w * colWidth;
+    const h = cell.h * this.props.grid.rowHeight;
+    return { x, y, w, h };
+  }
+
+  cord_px2grid (item) {
+    const gridWitdth = this.containerRef.current.clientWidth - this.gridPadding * 2;
+    const colWidth = gridWitdth / this.cur_responsive.cols;
+    const x = item.x / colWidth;
+    const y = item.y / this.props.grid.rowHeight;
+    const w = item.w / colWidth;
+    const h = item.h / this.props.grid.rowHeight;
+    return { x, y, w, h };
+  }
+
+  updateWidgetsCord (layouts) {
+    const layoutedWidgets = layouts[this.cur_responsive.breakpoint];
+    this.cur_widgets_cords = []
+    layoutedWidgets.map((cell) => {
+      let item = this.cord_grid2px(cell)
+      this.cur_widgets_cords.push({ ...item, i: cell.i });
+    });
+  }
+  onLayoutChange (widgets, layouts) {
+    this.props.logic.updateBounds(widgets);
+    this.setState({ layouts }, () => {
+      this.updateWidgetsCord(this.state.layouts);
+    });
   }
 
   closeFloor () {
@@ -342,6 +405,7 @@ export class LadifyToolbar extends React.Component {
       layerLevel: 1,
     })
   }
+
   render () {
     let { layerLevel, layers } = this.state
     let { pageId } = this.props
@@ -350,6 +414,10 @@ export class LadifyToolbar extends React.Component {
       this.editor = editor;
       let code = await service.getcode(this.props.pageId)
       editor.setValue(code)
+    }
+    const toggglePreview = ()=>{
+      // this.props.logic.clearAllWidgets();
+      this.setState({debug: !this.state.debug})
     }
     return (
       <>
@@ -393,7 +461,7 @@ export class LadifyToolbar extends React.Component {
                 { this.generateDOM() }
 
               </ResponsiveReactGridLayout>
-              
+
               { this.state.selection.ing ? (
                 <div style={ {
                   position: 'absolute',
@@ -407,52 +475,54 @@ export class LadifyToolbar extends React.Component {
                     { JSON.stringify(this.state.rect) }
                   </div>
                 </div>
-              ) : <></> }
-            </div>
-          </Content>
-          <Drawer
-            placement="bottom"
-            height="500"
-            mask={ false }
-            closable={ true }
-            onClose={ () => { this.setState({ isEditorShow: false }); } }
-            destroyOnClose={ true }
-            visible={ this.state.isEditorShow }
-          >
-            <Button type="primary" style={ { 'marginRight': '7px' } } onClick={ e => service.saveCode(this.editor.getModel().getValue(), this.props.pageId) } >save</Button>
+              ) : <></>}
+          </div>
+        </Content>
+        <Drawer
+          placement="bottom"
+          height="500"
+          mask={ false }
+          closable={ true }
+          onClose={ () => { this.setState({ isEditorShow: false }); } }
+          destroyOnClose={ true }
+          visible={ this.state.isEditorShow }
+        >
+          <Button type="primary" style={ { 'marginRight': '7px' } } onClick={ e => service.saveCode(this.editor.getModel().getValue(), this.props.pageId) } >save</Button>
 
-            <MonacoEditor
-              width="100%"
-              height="400"
-              language="typescript"
-              theme="vs-dark"
-              value={ this.state.script }
-              editorDidMount={ editorDidMount }
-              options={ {
-                selectOnLineNumbers: true,
-                matchBrackets: "near",
-              } }
-            />
+          <MonacoEditor
+            width="100%"
+            height="400"
+            language="typescript"
+            theme="vs-dark"
+            value={ this.state.script }
+            editorDidMount={ editorDidMount }
+            options={ {
+              selectOnLineNumbers: true,
+              matchBrackets: "near",
+            } }
+          />
 
-          </Drawer>
-          <Header style={ { position: 'fixed', zIndex: 999999, width: '100%', 'bottom': '0', 'padding': '0 30px' } }>
+        </Drawer>
+        {
+          !this.props.prod ? (<Header style={ { position: 'fixed', zIndex: 999999, width: '100%', 'bottom': '0', 'padding': '0 30px' } }>
             <span style={ { 'color': 'white' } }>{ this.state.debug ? 'Develop' : 'Preview' }</span>
-            <Switch style={ { 'marginRight': '7px' } } onChange={ () => { this.props.logic.clearAllWidgets(); this.setState({ debug: !this.state.debug }) } } checked={ this.state.debug } />
+            <Switch style={ { 'marginRight': '7px' } } onChange={ toggglePreview } checked={ this.state.debug } />
 
             {
               this.state.debug ? (
                 <>
-                  <Button type="normal" style={ { 'marginRight': '7px' } } onClick={ e => this.saveLayout() }>save</Button>
+                  <Button type="normal" style={ { 'marginRight': '7px' } } onClick={ this.saveLayout.bind(this) }>save</Button>
                   <Button type="danger" style={ { 'marginRight': '60px' } } onClick={ this.clearAll.bind(this) }>clearAll</Button>
 
                   { Object.keys(this.importedWidgets).map((k) => {
-                    return (<Button key={ k } type="primary" style={ { 'marginRight': '7px' } } onClick={ this.addElement.bind(this, k) }>{ k }</Button>)
+                    return (<Button key={ k } type="primary" style={ { 'marginRight': '7px' } } onClick={ this.addElement.bind(this, k) }>{ this.importedWidgets[k].getWidgetType() }</Button>)
                   }
                   ) }
                 </>
               ) : ''
             }
-          </Header>
+          </Header>) : <></>
+        }
         </Layout>
       </>
     )

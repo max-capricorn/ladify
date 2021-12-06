@@ -3,6 +3,9 @@ import React from 'react';
 import {LadifyWidget} from '@ladify/core'
 
 export default class Videodget extends LadifyWidget {
+  static getWidgetType() {
+    return "Video"
+  }
   static getCellW() {
     return 4;
   }
