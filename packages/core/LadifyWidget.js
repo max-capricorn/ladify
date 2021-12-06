@@ -13,8 +13,9 @@ export class LadifyWidget extends React.Component {
   constructor(props) {
     super(props);
     this.logic = props.logic;
-    this.l = props.l;
-    this.logic.addWidget(this)
+    this.l = props.l || {w:0,h:0,x:0,y:0,i:0};
+    if(this.logic)
+      this.logic.addWidget(this)
   }
 
   onCellBoundsChanged(newL){
@@ -46,7 +47,7 @@ export class LadifyWidget extends React.Component {
   }
 
   emitEvent(type, payload) {
-    if(this.logic[type] && !this.logic[type](this.getId(), type, payload))
+    if(this.logic && this.logic[type] && !this.logic[type](this.getId(), type, payload))
       this.logic.handleEvent(this.getId(), type, payload);
   }
 }
