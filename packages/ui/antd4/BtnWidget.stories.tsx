@@ -3,6 +3,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 
+import {Button} from 'antd';
 import  BtnWidget  from './BtnWidget';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -11,33 +12,30 @@ export default {
   component: BtnWidget,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    backgroundColor: { control: 'color' },
   },
 } as ComponentMeta<typeof BtnWidget>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof BtnWidget> = (args) => <BtnWidget {...args} />;
 
+export const Normal = Template.bind({});
+Normal.args = {
+  type: 'normal',
+  content: 'normal btn content',
+};
+
 export const Primary = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
-  primary: true,
-  label: 'BtnWidget',
+  type: 'primary',
+  content: 'primary btn contnet',
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: 'BtnWidget',
+export const Danger = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+Danger.args = {
+  type: 'danger',
+  content: 'danger btn content'
 };
 
-export const Large = Template.bind({});
-Large.args = {
-  size: 'large',
-  label: 'BtnWidget',
-};
 
-export const Small = Template.bind({});
-Small.args = {
-  size: 'small',
-  label: 'Button',
-};
+
