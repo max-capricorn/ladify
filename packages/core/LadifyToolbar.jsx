@@ -187,6 +187,7 @@ export class LadifyToolbar extends React.Component {
   }
 
   markWidgets () {
+    const {layers, layerLevel} = this.state
     // TODO: speed up this method
     const gridWitdth = this.containerRef.current.clientWidth - this.gridPadding * 2;
     const colWidth = Math.floor(gridWitdth / this.cur_responsive.cols);
@@ -204,14 +205,15 @@ export class LadifyToolbar extends React.Component {
       // expand the boundingbox, only need to check the center point
       const bigBounding = { x: x - widgetWidth / 2, y: y - widgetHeight / 2, w: w + widgetWidth, h: h + widgetHeight }
       if (this.isPointInBB(wcenter, bigBounding)) {
-        let newWidgets = this.state.widgets.map(w => { if (w.i === item.i) { w.selected = true; } return w; })
-        this.setState({ widgets: newWidgets })
+        layers[layerLevel].widgets = layers[layerLevel].widgets.map(w => { if (w.i === item.i) { w.selected = true; } return w; })
+        this.setState([...layers])
       }
 
     });
   }
 
   mouseMove (e) {
+    const {layers, layerLevel} = this.state
     if (this.first_click_on_widget) return;
     if (this.state.selection.ing) {
       let { x, y } = this.getRelativeXY(e)
