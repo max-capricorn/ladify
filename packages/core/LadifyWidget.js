@@ -1,60 +1,66 @@
 import React from 'react';
 
 export class LadifyWidget extends React.Component {
-  static getName() {
+  static getName () {
     return '';
   }
 
-  static getCellW() {
+  static getCellW () {
     return 1;
   }
 
-  static getCellH() {
+  static getCellH () {
     return 1;
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.logic = props.logic;
+<<<<<<< HEAD
     this.l = props.l;
     this.logic.addWidget(this);
+=======
+    this.l = props.l || {w:0,h:0,x:0,y:0,i:0};
+    if(this.logic)
+      this.logic.addWidget(this)
+>>>>>>> master
   }
 
-  onCellBoundsChanged(newL) {
+  onCellBoundsChanged (newL) {
     this.l = newL;
   }
 
-  getBounds() {
+  getBounds () {
     return this.l;
   }
 
-  getId() {
+  getId () {
     return this.l.i;
   }
 
-  getName() {
+  getName () {
     throw new Error('请定义一个组件的名字');
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.emitEvent('componentWillUnmount', this.getId());
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.emitEvent('componentDidMount', this.getId());
   }
 
-  getSmartState(key) {
+  getSmartState (key) {
     if (this.state) return key.split('.').reduce((o, i) => o[i], this.state);
     return null;
   }
 
-  setSmartState(key, val) {
+  setSmartState (key, val) {
     this.setState({ [key]: val });
   }
 
-  emitEvent(type, payload) {
-    if (this.logic[type] && !this.logic[type](this.getId(), type, payload))
+  emitEvent (type, payload) {
+    if (this.logic && this.logic[type] && !this.logic[type](this.getId(), type, payload))
       this.logic.handleEvent(this.getId(), type, payload);
   }
 }

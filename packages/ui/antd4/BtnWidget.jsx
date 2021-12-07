@@ -18,21 +18,12 @@ export default class BtnWidget extends LadifyWidget {
   constructor(props) {
     super(props);
     this.state = {
-      content: 'default btn',
-      type: 'primary',
+      content: props.content || "default btn",
+      type:props.type || "primary"
     };
   }
 
   render() {
-    return (
-      <Button
-        type={this.state.type}
-        onDoubleClick={(e) => this.emitEvent('onDoubleClick', e)}
-        onClick={(e) => this.emitEvent('onClick', e)}
-        style={{ width: '100%', height: '100%', padding: '0' }}
-      >
-        {this.state.content}
-      </Button>
-    );
+    return (<Button type={this.props.type} onDoubleClick={e => this.emitEvent('onDoubleClick', e)} onClick={e => this.emitEvent('onClick', e)} style={{'width': '100%', 'height': '100%', 'padding':'0'}}>{this.props.content}</Button>)
   }
 }
