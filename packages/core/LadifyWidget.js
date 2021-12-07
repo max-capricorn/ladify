@@ -16,14 +16,9 @@ export class LadifyWidget extends React.Component {
   constructor (props) {
     super(props);
     this.logic = props.logic;
-<<<<<<< HEAD
-    this.l = props.l;
-    this.logic.addWidget(this);
-=======
-    this.l = props.l || {w:0,h:0,x:0,y:0,i:0};
-    if(this.logic)
+    this.l = props.l || { w: 0, h: 0, x: 0, y: 0, i: 0 };
+    if (this.logic)
       this.logic.addWidget(this)
->>>>>>> master
   }
 
   onCellBoundsChanged (newL) {
