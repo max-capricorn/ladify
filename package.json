@@ -9,7 +9,6 @@
     "dev:server": "pnpm dev --filter='localserver'",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "lint": "eslint --fix --ext .jsx packages/",
     "fix": "pnpx prettier --write packages/"
   },
   "files": [
