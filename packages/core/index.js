@@ -1,4 +1,4 @@
-export {LadifyWidget}  from './LadifyWidget';
-export {LadifyPageContext}  from './LadifyPageContext';
-export {LadifyToolbar}  from './LadifyToolbar';
-export {LadifyRegistry}  from './LadifyRegistry';
+export { LadifyWidget } from './LadifyWidget';
+export { LadifyPageContext } from './LadifyPageContext';
+export { LadifyToolbar } from './LadifyToolbar';
+export { LadifyRegistry } from './LadifyRegistry';

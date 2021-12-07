@@ -1,12 +1,11 @@
-const modules = import.meta.globEager('./*.jsx')
+const modules = import.meta.globEager('./*.jsx');
 
-const components = {}
+const components = {};
 
 for (const path in modules) {
+  const name = path.replace(/(\.\/|\.jsx)/g, '');
 
-  let name = path.replace(/(\.\/|\.jsx)/g, '')
-
-  components[name] = modules[path].default
+  components[name] = modules[path].default;
 }
 
-export default components
+export default components;

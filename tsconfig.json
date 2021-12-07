@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-jsx",
     "target": "ESNext",
     "lib": [
       "ESNext",
@@ -17,5 +17,6 @@
     "sourceMap": false,
     "declaration": true,
     "outDir": "./dist",
+    "isolatedModules": true
   }
 }

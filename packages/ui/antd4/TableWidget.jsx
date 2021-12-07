@@ -1,8 +1,6 @@
-import {Table} from 'antd';
+import { Table } from 'antd';
 import React from 'react';
-import {LadifyWidget} from '@ladify/core'
-
-
+import { LadifyWidget } from '@ladify/core';
 
 const columns = [
   {
@@ -83,36 +81,44 @@ for (let i = 0; i < 3; i++) {
 
 export default class TableWidget extends LadifyWidget {
   static getWidgetType() {
-    return "Table"
-  }
-  static getCellW(){
-    return 4;
-  }
-  static getCellH(){
-    return 6;
-  }
-  constructor(props) {
-    super(props)
-    this.state = {
-      columns:columns,
-      dataSource:data,
-      y: 300
-    }
-  }
-  onCellBoundsChanged(w){
-    super.onCellBoundsChanged(w);
-    this.setState({y:w.h*50-114})
-    this.forceUpdate()
+    return 'Table';
   }
 
-  onMessage(type,payload){
-    super.onMessage(type,payload)
+  static getCellW() {
+    return 4;
+  }
+
+  static getCellH() {
+    return 6;
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      columns,
+      dataSource: data,
+      y: 300,
+    };
+  }
+
+  onCellBoundsChanged(w) {
+    super.onCellBoundsChanged(w);
+    this.setState({ y: w.h * 50 - 114 });
+    this.forceUpdate();
+  }
+
+  onMessage(type, payload) {
+    super.onMessage(type, payload);
   }
 
   render() {
     return (
-      <Table style={{'width': '100%', 'height': '100%'}} columns={this.state.columns} dataSource={this.state.dataSource} scroll={{x: 1500, y: this.state.y}} />
-
-    )
+      <Table
+        style={{ width: '100%', height: '100%' }}
+        columns={this.state.columns}
+        dataSource={this.state.dataSource}
+        scroll={{ x: 1500, y: this.state.y }}
+      />
+    );
   }
 }

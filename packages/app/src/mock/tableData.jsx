@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const columns = [
   {
     title: 'Full Name',
@@ -78,4 +77,4 @@ for (let i = 0; i < 100; i++) {
   });
 }
 
-export {columns,data};
+export { columns, data };

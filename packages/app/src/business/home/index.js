@@ -1,7 +1,7 @@
+// this file should contains all the business logic
+import { LadifyPageContext } from '@ladify/core';
+import { columns, data } from '../../mock/tableData';
 
-// this file should contains all the business logic 
-import {columns, data} from '../../mock/tableData'
-import {LadifyPageContext} from '@ladify/core'
 let timer = null;
 export default class HomeLogic extends LadifyPageContext {
   componentDidMount(id, type, payload) {
@@ -20,27 +20,29 @@ export default class HomeLogic extends LadifyPageContext {
       return true;
     }
 
-    else if (id === '1') {
+    if (id === '1') {
       if (timer) {
         clearInterval(timer);
         timer = null;
       }
       timer = setInterval(() => {
-        this.setState('1', 'content', '' + Math.random() * 100);
+        this.setState('1', 'content', `${Math.random() * 100}`);
       }, 1000);
       return true;
     }
-    else {
-      return false;
-    }
+
+    return false;
   }
+
   onClick(id, type, payload) {
     if (id === '1') {
-      let v = this.getState('2', 'value');
+      const v = this.getState('2', 'value');
       this.setState('3', 'value', v);
     }
     return true;
   }
+
   handleEvent(id, type, payload) {
+    console.log('id, type, payload: ', id, type, payload);
   }
 }

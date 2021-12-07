@@ -1,7 +1,7 @@
-import React from 'react'
-import { Hello } from '@ladify/ui'
-import { add } from '@ladify/utils'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import { Hello } from '@ladify/ui';
+import { add } from '@ladify/utils';
+import ReactDOM from 'react-dom';
 
 export const App = () => {
   return (
@@ -10,7 +10,7 @@ export const App = () => {
       <br />
       {add(1, 2)}
     </div>
-  )
-}
+  );
+};
 
-ReactDOM.render(<App />, document.getElementById('app'))
+ReactDOM.render(<App />, document.getElementById('app'));

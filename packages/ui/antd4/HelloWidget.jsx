@@ -1,25 +1,35 @@
 import React from 'react';
-import {LadifyWidget} from '@ladify/core'
-
+import { LadifyWidget } from '@ladify/core';
 
 export default class HelloWidget extends LadifyWidget {
   static getWidgetType() {
-    return "Hello"
+    return 'Hello';
   }
+
   static getCellW() {
     return 4;
   }
+
   static getCellH() {
     return 1;
   }
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      content: ""
+      content: '',
     };
   }
+
   render() {
-    return <input  onChange={e => {this.setState({content:e.target.value}); this.emitEvent('onChange', e)}} style={{'width': '100%', 'height': '100%'}} />
+    return (
+      <input
+        onChange={(e) => {
+          this.setState({ content: e.target.value });
+          this.emitEvent('onChange', e);
+        }}
+        style={{ width: '100%', height: '100%' }}
+      />
+    );
   }
 }

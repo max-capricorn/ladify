@@ -1,4 +1,4 @@
-import React from 'react'
-import { FC } from 'react'
+import React from 'react';
+import { FC } from 'react';
 
-export const Hello: FC = () => <>{'Hello! world'}</>
+export const Hello: FC = () => <>{'Hello! world'}</>;

@@ -4,6 +4,5 @@
   "dependencies": {
     "@ladify/core": "workspace:*"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

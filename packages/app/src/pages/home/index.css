@@ -26,61 +26,60 @@
   color: #61dafb;
 }
 
-.remove{
+.remove {
   position: absolute;
   right: 0px;
   top: -5px;
   cursor: pointer;
   z-index: 999;
-  display:none;
-  font-size:20px;
+  display: none;
+  font-size: 20px;
 }
 
-.myid{
-  font-size:20px;
+.myid {
+  font-size: 20px;
   position: absolute;
   left: -18px;
   top: -5px;
   color: red;
   cursor: pointer;
   z-index: 999;
-  display:none;
+  display: none;
 }
 
-.react-grid-item:hover .myid{
-  display:inline-block;
+.react-grid-item:hover .myid {
+  display: inline-block;
 }
-.myevent{
-  font-size:20px;
+.myevent {
+  font-size: 20px;
   position: absolute;
   right: 18px;
   top: -5px;
   color: red;
   cursor: pointer;
   z-index: 999;
-  display:none;
+  display: none;
 }
 
-.react-grid-item:hover .myevent{
-  display:inline-block;
+.react-grid-item:hover .myevent {
+  display: inline-block;
 }
-.react-grid-item{
+.react-grid-item {
   border: 1px solid #ececec;
   padding: 10px;
 }
 
-.react-grid-item:hover .remove{
-  display:inline-block;
+.react-grid-item:hover .remove {
+  display: inline-block;
 }
 
-.react-resizable-handle{
+.react-resizable-handle {
   visibility: hidden;
 }
 
-.react-grid-item:hover .react-resizable-handle{
+.react-grid-item:hover .react-resizable-handle {
   visibility: visible;
 }
 .react-grid-item.react-grid-placeholder {
-  background-color: green; 
+  background-color: green;
 }
-

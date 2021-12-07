@@ -1,6 +1,6 @@
-html{
-    overflow-y: scroll;
-    overflow-x: hidden;
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .App {
@@ -45,5 +45,3 @@ html{
 button {
   font-size: calc(10px + 2vmin);
 }
-
-

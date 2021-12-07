@@ -1,25 +1,26 @@
-const express = require('express')
-const fse = require("fs-extra");
-const cors = require('cors')
-const app = express()
+const express = require('express');
+const fse = require('fs-extra');
+const cors = require('cors');
 
-app.use(cors())
-app.use(express.json())
+const app = express();
 
-var fs = require("fs");
+app.use(cors());
+app.use(express.json());
 
-var appBase = '../app/src/'
-app.get('/script', function (req, res) {
-  let pid = req.query.pageId;
-  let rpath = `${appBase}business/${pid}/index.js`;
-  let contentText = fs.readFileSync(rpath)
+const fs = require('fs');
+
+const appBase = '../app/src/';
+app.get('/script', (req, res) => {
+  const pid = req.query.pageId;
+  const rpath = `${appBase}business/${pid}/index.js`;
+  const contentText = fs.readFileSync(rpath);
   res.end(contentText);
-})
+});
 
-app.post('/script', function (req, res) {
-  let pid = req.query.pageId;
-  let rpath = `${appBase}business/${pid}/index.js`;
-  console.log(rpath)
+app.post('/script', (req, res) => {
+  const pid = req.query.pageId;
+  const rpath = `${appBase}business/${pid}/index.js`;
+  console.log(rpath);
   fse.outputFile(rpath, req.body.d, (err) => {
     if (err) {
       console.log(err);
@@ -27,12 +28,12 @@ app.post('/script', function (req, res) {
       console.log(`写入:${rpath}`);
     }
   });
-  res.end("ok");
-})
+  res.end('ok');
+});
 
-app.post('/saveLayout', function (req, res) {
-  let pid = req.query.pageId;
-  let rpath = `${appBase}pages/${pid}/layout.json`;
+app.post('/saveLayout', (req, res) => {
+  const pid = req.query.pageId;
+  const rpath = `${appBase}pages/${pid}/layout.json`;
   fse.outputFile(rpath, JSON.stringify(req.body, null, 4), (err) => {
     if (err) {
       console.log(err);
@@ -40,15 +41,15 @@ app.post('/saveLayout', function (req, res) {
       console.log(`写入:${rpath}`);
     }
   });
-  res.end("ok");
-})
+  res.end('ok');
+});
 
-app.get('/getLayout', function (req, res) {
-  let pid = req.query.pageId;
-  let rpath = `${appBase}pages/${pid}/layout.json`;
-  let contentText = fs.readFileSync(rpath)
+app.get('/getLayout', (req, res) => {
+  const pid = req.query.pageId;
+  const rpath = `${appBase}pages/${pid}/layout.json`;
+  const contentText = fs.readFileSync(rpath);
   res.end(contentText);
-})
+});
 
 // app.post('/saveFloorLayout', function (req, res) {
 //   let pid = req.query.pageId;
@@ -70,11 +71,9 @@ app.get('/getLayout', function (req, res) {
 //   res.end(contentText);
 // })
 
-var server = app.listen(8081, function () {
+var server = app.listen(8081, () => {
+  const host = server.address().address;
+  const { port } = server.address();
 
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log("应用实例，访问地址为 http://%s:%s", host, port)
-
-})
+  console.log('应用实例，访问地址为 http://%s:%s', host, port);
+});

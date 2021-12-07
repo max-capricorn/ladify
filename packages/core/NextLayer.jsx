@@ -1,57 +1,62 @@
-import React ,{useState,useEffect} from 'react';
-import { Layout, Switch,Button,Drawer } from 'antd'
-import MonacoEditor from "react-monaco-editor";
-import {CloseOutlined} from '@ant-design/icons'
-import {WidthProvider, Responsive} from "react-grid-layout";
-import service from './LadifyService'
-import { LadifyRegistry } from './LadifyRegistry'
+import React, { useState, useEffect } from 'react';
+import { Layout, Switch, Button, Drawer } from 'antd';
+import MonacoEditor from 'react-monaco-editor';
+import { CloseOutlined } from '@ant-design/icons';
+import { WidthProvider, Responsive } from 'react-grid-layout';
+import service from './LadifyService';
+import { LadifyRegistry } from './LadifyRegistry';
 import './Ladify.css';
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-function NextFloorToolBar (props) {
-  const { layers: _l, maxId: _id, layerLevel, setNextData } = props
-  const _w = _l[layerLevel].widgets
-  const _layouts = _l[layerLevel].layouts
-  const [debug, setDebug] = useState(true)
-  const [widgets, setWidgets] = useState(() => _w || [])
-  const [layouts, setLayouts] = useState({})
-  const [isEditorShow, setEditorShow] = useState(false)
-  const [script, setScript] = useState('')
-  const [layers, setlayers] = useState(() => _l || {})
-  const [curResponsive, setCurResponsive] = useState({  })
-  let [maxId, setMaxId] = useState(() => _id)
-  const [editor, setEditor] = useState(null)
-  const { logic, closeFloor } = props
+const NextFloorToolBar = function (props) {
+  const { layers: _l, maxId: _id, layerLevel, setNextData } = props;
+  const _w = _l[layerLevel].widgets;
+  const _layouts = _l[layerLevel].layouts;
+  const [debug, setDebug] = useState(true);
+  const [widgets, setWidgets] = useState(() => _w || []);
+  const [layouts, setLayouts] = useState({});
+  const [isEditorShow, setEditorShow] = useState(false);
+  const [script, setScript] = useState('');
+  const [layers, setlayers] = useState(() => _l || {});
+  const [curResponsive, setCurResponsive] = useState({});
+  const [maxId, setMaxId] = useState(() => _id);
+  const [editor, setEditor] = useState(null);
+  const { logic, closeFloor } = props;
   const { Header, Content } = Layout;
-  const [importedWidgets, setImportedWidgets] = useState(LadifyRegistry.instance().getAllWidgets())
+  const [importedWidgets, setImportedWidgets] = useState(
+    LadifyRegistry.instance().getAllWidgets()
+  );
   useEffect(() => {
-    setWidgets(_w)
-    setMaxId(_id)
-    setlayers(_l)
-    setLayouts(_layouts)
-  }, [_w, _l])
-  let editorDidMount = async (editor, monoco) => {
-    setEditor(editor)
-    let code = await service.getcode(props.pageId)
-    editor.setValue(code)
-  }
-  
-  let editorComp = (<MonacoEditor
-    width="100%"
-    height="400"
-    language="typescript"
-    theme="vs-dark"
-    value={script}
-    editorDidMount={editorDidMount}
-    options={{
-      selectOnLineNumbers: true,
-      matchBrackets: "near",
-    }}
-  />);
+    setWidgets(_w);
+    setMaxId(_id);
+    setlayers(_l);
+    setLayouts(_layouts);
+  }, [_w, _l]);
+  const editorDidMount = async (editor, monoco) => {
+    setEditor(editor);
+    const code = await service.getcode(props.pageId);
+    editor.setValue(code);
+  };
 
-  let onCloseEditor = () => {
-    setEditorShow(false)
-  }
+  const editorComp = (
+    <MonacoEditor
+      width="100%"
+      height="400"
+      language="typescript"
+      theme="vs-dark"
+      value={script}
+      editorDidMount={editorDidMount}
+      options={{
+        selectOnLineNumbers: true,
+        matchBrackets: 'near',
+      }}
+    />
+  );
+
+  const onCloseEditor = () => {
+    setEditorShow(false);
+  };
 
   // const saveLayout = () => {
   //   service.saveFloorLayout({layers: layers, widgets: widgets, maxId: maxId},props.pageId);
@@ -93,89 +98,113 @@ function NextFloorToolBar (props) {
     //   ...layers
     // ]);
     setLayouts(layouts);
-    setlayers([...layers])
-  }
+    setlayers([...layers]);
+  };
   const onBreakpointChange = (newBreakpoint, newCols) => {
     setCurResponsive({
       ...curResponsive,
-      breakpoint: newBreakpoint, cols: newCols
-    })
-  }
+      breakpoint: newBreakpoint,
+      cols: newCols,
+    });
+  };
   const showDrawer = () => {
-    setEditorShow(true)
+    setEditorShow(true);
   };
   const onRemoveItem = (i) => {
-    setWidgets(widgets.filter((item, index) => index !== i))
-    logic.removeWidget(i)
-  }
+    setWidgets(widgets.filter((item, index) => index !== i));
+    logic.removeWidget(i);
+  };
 
   const changeId = (e, l) => {
-    let oldi = l.i
-    let newi  = prompt(`change id ${oldi} to: `, l.i) ;
-    if(!newi)return;
-    // check if id 重复 
-    let duplicatedAry = widgets.filter(w=>w.i===newi) ;
-    if(duplicatedAry.length>0){
-      alert('重复的 id '+ newi+" ，重试");
+    const oldi = l.i;
+    const newi = prompt(`change id ${oldi} to: `, l.i);
+    if (!newi) return;
+    // check if id 重复
+    const duplicatedAry = widgets.filter((w) => w.i === newi);
+    if (duplicatedAry.length > 0) {
+      alert(`重复的 id ${newi} ，重试`);
       return;
     }
-    l.i = newi
-    
-    let keys = Object.keys(layouts);
-    keys.forEach(k =>{
-      let curLayout = layouts[k];
-      let targetW = curLayout.filter(m => m.i === oldi)
-      if(targetW.length>0)
-        targetW[0].i = l.i;
-    })
+    l.i = newi;
+
+    const keys = Object.keys(layouts);
+    keys.forEach((k) => {
+      const curLayout = layouts[k];
+      const targetW = curLayout.filter((m) => m.i === oldi);
+      if (targetW.length > 0) targetW[0].i = l.i;
+    });
     // saveLayout();
     // forceUpdate()
-  }
+  };
 
   const generateDOM = () => {
     console.log('generateDOM  widgets: ', widgets);
-    return widgets && widgets.map((l, i) => {
-      console.log('l: ', l);
-      if (importedWidgets[l.type]) {
-        let h = importedWidgets[l.type].getCellH() || 1;
-        let w = importedWidgets[l.type].getCellW() || 4;
-        let rdata = {logic, l};
-        return (
-          <div key={l.i} data-grid={{x:0,y:9999,h,w}} >
-            {
-              debug ?
-                (<>
-                  <span className='myid'><Button onClick={e => changeId(e, l)}>{l.i}</Button></span>
-                  <span className='script' onClick={() => showDrawer()}>e</span>
-                  <span className='remove' onClick={() => onRemoveItem(i)}>x</span>
-                </>) : ""
-            }
-            {React.createElement(importedWidgets[l.type], rdata)}
-          </div>
-        )
-      }
-      else {
+    return (
+      widgets &&
+      widgets.map((l, i) => {
+        console.log('l: ', l);
+        if (importedWidgets[l.type]) {
+          const h = importedWidgets[l.type].getCellH() || 1;
+          const w = importedWidgets[l.type].getCellW() || 4;
+          const rdata = { logic, l };
+          return (
+            <div key={l.i} data-grid={{ x: 0, y: 9999, h, w }}>
+              {debug ? (
+                <>
+                  <span className="myid">
+                    <Button onClick={(e) => changeId(e, l)}>{l.i}</Button>
+                  </span>
+                  <span className="script" onClick={() => showDrawer()}>
+                    e
+                  </span>
+                  <span className="remove" onClick={() => onRemoveItem(i)}>
+                    x
+                  </span>
+                </>
+              ) : (
+                ''
+              )}
+              {React.createElement(importedWidgets[l.type], rdata)}
+            </div>
+          );
+        }
+
         return (
           <div key={l.i} data-grid={l}>
-            <span className='remove' onClick={() => onRemoveItem(i)}>x</span>
+            <span className="remove" onClick={() => onRemoveItem(i)}>
+              x
+            </span>
           </div>
-        )
-      }
-    });
+        );
+      })
+    );
   };
 
   const handleChange = () => {
-    logic.clearAllWidgets()
-    setDebug(!debug)
-  }
+    logic.clearAllWidgets();
+    setDebug(!debug);
+  };
 
   return (
-    <div className="mask"
-      style={ { width: '100%', minHeight: '100%', background: 'rgba(0, 0, 0, 0.6)', zIndex: 9999, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, margin: 0, } }>
-      <div style={ { width: '100%', minHeight: '100%', background: '#fff' } }>
+    <div
+      className="mask"
+      style={{
+        width: '100%',
+        minHeight: '100%',
+        background: 'rgba(0, 0, 0, 0.6)',
+        zIndex: 9999,
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        margin: 0,
+      }}
+    >
+      <div style={{ width: '100%', minHeight: '100%', background: '#fff' }}>
         <Layout>
           <Content>
-            <div style={{background: '#eee', padding: 20, minHeight: 800}}>
+            <div style={{ background: '#eee', padding: 20, minHeight: 800 }}>
               <ResponsiveReactGridLayout
                 className="layouts"
                 {...props.grid}
@@ -184,7 +213,7 @@ function NextFloorToolBar (props) {
                 onLayoutChange={(layout, layouts) =>
                   onLayoutChange(layout, layouts)
                 }
-                onBreakpointChange={(newBreakpoint, newCols) => 
+                onBreakpointChange={(newBreakpoint, newCols) =>
                   onBreakpointChange(newBreakpoint, newCols)
                 }
                 isDraggable={debug}
@@ -198,19 +227,27 @@ function NextFloorToolBar (props) {
             placement="bottom"
             height={500}
             mask={false}
-            closable={true}
+            closable
             onClose={onCloseEditor}
-            destroyOnClose={true}
+            destroyOnClose
             visible={isEditorShow}
           >
-            <Button type="primary" style={{'marginRight': '7px'}} onClick={e=>service.saveCode(editor.getModel().getValue(),props.pageId)} >save</Button>
+            <Button
+              type="primary"
+              style={{ marginRight: '7px' }}
+              onClick={(e) =>
+                service.saveCode(editor.getModel().getValue(), props.pageId)
+              }
+            >
+              save
+            </Button>
             {editorComp}
           </Drawer>
         </Layout>
       </div>
     </div>
-  )
-}
+  );
+};
 
 NextFloorToolBar.defaultProps = {
   grid: {
@@ -218,9 +255,9 @@ NextFloorToolBar.defaultProps = {
     rowHeight: 50,
     margin: [0, 0],
     isDraggable: true,
-    isResizable: true
+    isResizable: true,
   },
-  view: { width: '100%' }
-}
+  view: { width: '100%' },
+};
 
-export default NextFloorToolBar
+export default NextFloorToolBar;

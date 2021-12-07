@@ -1,12 +1,15 @@
 import React from 'react';
+
 export class LadifyWidget extends React.Component {
-  static getName(){
-    return "";
+  static getName() {
+    return '';
   }
-  static getCellW(){
+
+  static getCellW() {
     return 1;
   }
-  static getCellH(){
+
+  static getCellH() {
     return 1;
   }
 
@@ -14,39 +17,44 @@ export class LadifyWidget extends React.Component {
     super(props);
     this.logic = props.logic;
     this.l = props.l;
-    this.logic.addWidget(this)
+    this.logic.addWidget(this);
   }
 
-  onCellBoundsChanged(newL){
+  onCellBoundsChanged(newL) {
     this.l = newL;
   }
 
-  getBounds(){
-    return this.l
+  getBounds() {
+    return this.l;
   }
 
-  getId() {return this.l.i};
-  getName() {throw new Error("请定义一个组件的名字")}
-
-  componentWillUnmount(){
-    this.emitEvent('componentWillUnmount', this.getId())
+  getId() {
+    return this.l.i;
   }
-  componentDidMount(){
-    this.emitEvent('componentDidMount', this.getId())
+
+  getName() {
+    throw new Error('请定义一个组件的名字');
+  }
+
+  componentWillUnmount() {
+    this.emitEvent('componentWillUnmount', this.getId());
+  }
+
+  componentDidMount() {
+    this.emitEvent('componentDidMount', this.getId());
   }
 
   getSmartState(key) {
-    if(this.state)
-      return key.split('.').reduce((o,i)=> o[i], this.state)
-    return null
+    if (this.state) return key.split('.').reduce((o, i) => o[i], this.state);
+    return null;
   }
 
   setSmartState(key, val) {
-     this.setState({[key]: val})
+    this.setState({ [key]: val });
   }
 
   emitEvent(type, payload) {
-    if(this.logic[type] && !this.logic[type](this.getId(), type, payload))
+    if (this.logic[type] && !this.logic[type](this.getId(), type, payload))
       this.logic.handleEvent(this.getId(), type, payload);
   }
 }
