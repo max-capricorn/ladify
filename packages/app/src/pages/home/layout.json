@@ -1,150 +1,154 @@
 {
-    "layouts": {
-        "lg": [
-            {
-                "w": 4,
-                "h": 1,
-                "x": 4,
-                "y": 11,
-                "i": "btn:cancel",
-                "moved": false,
-                "static": false
+    "layers": [
+        {
+            "layouts": {
+                "lg": [
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 4,
+                        "y": 11,
+                        "i": "btn:cancel",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 4,
+                        "y": 0,
+                        "i": "intpu:2",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 0,
+                        "y": 0,
+                        "i": "input:1",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 2,
+                        "h": 1,
+                        "x": 0,
+                        "y": 1,
+                        "i": "drop:1",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 1,
+                        "h": 1,
+                        "x": 2,
+                        "y": 1,
+                        "i": "drop:2",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 1,
+                        "h": 1,
+                        "x": 3,
+                        "y": 1,
+                        "i": "drop:3",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 12,
+                        "h": 9,
+                        "x": 0,
+                        "y": 2,
+                        "i": "table:main",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 8,
+                        "h": 1,
+                        "x": 4,
+                        "y": 1,
+                        "i": "1",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 8,
+                        "y": 11,
+                        "i": "btn:ok",
+                        "moved": false,
+                        "static": false
+                    },
+                    {
+                        "w": 4,
+                        "h": 1,
+                        "x": 8,
+                        "y": 0,
+                        "i": "btn:search",
+                        "moved": false,
+                        "static": false
+                    }
+                ]
             },
-            {
-                "w": 4,
-                "h": 1,
-                "x": 4,
-                "y": 0,
-                "i": "intpu:2",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 4,
-                "h": 1,
-                "x": 0,
-                "y": 0,
-                "i": "input:1",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 2,
-                "h": 1,
-                "x": 0,
-                "y": 1,
-                "i": "drop:1",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 1,
-                "h": 1,
-                "x": 2,
-                "y": 1,
-                "i": "drop:2",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 1,
-                "h": 1,
-                "x": 3,
-                "y": 1,
-                "i": "drop:3",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 12,
-                "h": 9,
-                "x": 0,
-                "y": 2,
-                "i": "table:main",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 8,
-                "h": 1,
-                "x": 4,
-                "y": 1,
-                "i": "1",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 4,
-                "h": 1,
-                "x": 8,
-                "y": 11,
-                "i": "btn:ok",
-                "moved": false,
-                "static": false
-            },
-            {
-                "w": 4,
-                "h": 1,
-                "x": 8,
-                "y": 0,
-                "i": "btn:search",
-                "moved": false,
-                "static": false
-            }
-        ]
-    },
-    "widgets": [
-        {
-            "i": "btn:cancel",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "intpu:2",
-            "type": "InputWidget"
-        },
-        {
-            "i": "input:1",
-            "type": "InputWidget"
-        },
-        {
-            "i": "drop:1",
-            "type": "DropDownWidget"
-        },
-        {
-            "i": "drop:2",
-            "type": "DropDownWidget"
-        },
-        {
-            "i": "drop:3",
-            "type": "DropDownWidget"
-        },
-        {
-            "i": "table:main",
-            "type": "TableWidget"
-        },
-        {
-            "i": "1",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "btn:ok",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "btn:search",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "20",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "haha",
-            "type": "BtnWidget"
-        },
-        {
-            "i": "67777777",
-            "type": "BtnWidget"
+            "widgets": [
+                {
+                    "i": "btn:cancel",
+                    "type": "BtnWidget"
+                },
+                {
+                    "i": "intpu:2",
+                    "type": "InputWidget"
+                },
+                {
+                    "i": "input:1",
+                    "type": "InputWidget"
+                },
+                {
+                    "i": "drop:1",
+                    "type": "DropDownWidget"
+                },
+                {
+                    "i": "drop:2",
+                    "type": "DropDownWidget"
+                },
+                {
+                    "i": "drop:3",
+                    "type": "DropDownWidget"
+                },
+                {
+                    "i": "table:main",
+                    "type": "TableWidget"
+                },
+                {
+                    "i": "1",
+                    "type": "BtnWidget"
+                },
+                {
+                    "i": "btn:ok",
+                    "type": "BtnWidget"
+                },
+                {
+                    "i": "btn:search",
+                    "type": "BtnWidget"
+                },
+                {
+                    "i": "20",
+                    "type": "BtnWidget"
+                },
+                {
+                    "i": "haha",
+                    "type": "BtnWidget"
+                },
+                {
+                    "i": "67777777",
+                    "type": "BtnWidget"
+                }
+            ]
         }
     ],
     "maxId": 23
